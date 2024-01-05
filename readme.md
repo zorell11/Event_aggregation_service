@@ -1,3 +1,5 @@
+## projekt strukture 
+
 projekt name:
 event_portal
 
