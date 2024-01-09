@@ -1,5 +1,7 @@
 venv
 db.sqlite3
+events/migrations
+accounts/migrations
 
 /.idea/vcs.xml
 /.idea/Event_aggregation_service.iml
@@ -10,3 +12,5 @@ db.sqlite3
 event_portal/__pycache__/
 accounts/__pycache__
 events/migrations/__pycache__/
+events/__pycache__/*
+events/__pycache__/

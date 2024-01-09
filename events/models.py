@@ -1,7 +1,7 @@
 from _ast import Pass
 
 from django.db import models
-from accounts.models import Organizer
+from accounts.models import Organizer, CustomUser
 
 
 # Create your models here.
@@ -17,8 +17,6 @@ class Category(models.Model):
     def __str__(self):
         return f'{self.id}. {self.name}'
 
-class Comment(models.Model):
-    pass
 
 class Event(models.Model):
     organizer_id = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING, null=False, blank=False)
@@ -32,5 +30,19 @@ class Event(models.Model):
     capacity = models.IntegerField(blank=False, null=False)
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
     event_video = models.CharField(max_length=128, null=True, blank=True)
+
+
+class Comment(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    #headline = models.CharField(max_length=64, null=False, blank=False)
+    comment = models.TextField(null=False, blank=False)
+    # is_reply = models.BooleanField()
+    # comment_id = models.IntegerField()
+    comment_date = models.DateTimeField(auto_now_add=True)
+
+
+
+
 
 
