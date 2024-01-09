@@ -1,8 +1,12 @@
 venv
 db.sqlite3
+
 /.idea/vcs.xml
 /.idea/Event_aggregation_service.iml
 /.idea/misc.xml
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/modules.xml
 /.idea/inspectionProfiles/Project_Default.xml
+event_portal/__pycache__/
+accounts/__pycache__
+events/migrations/__pycache__/

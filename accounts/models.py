@@ -17,4 +17,4 @@ class Organizer(CustomUser):
 
 
     class Meta:
-        pass
+        verbose_name_plural = "Organizers"
