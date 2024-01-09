@@ -12,3 +12,5 @@ accounts/migrations
 event_portal/__pycache__/
 accounts/__pycache__
 events/migrations/__pycache__/
+events/__pycache__/*
+events/__pycache__/
