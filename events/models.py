@@ -51,6 +51,13 @@ class Comment(models.Model):
     # comment_id = models.IntegerField()
     comment_date = models.DateTimeField(auto_now_add=True)
 
+class SigningUp(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
+    user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    signing_up_date = models.DateTimeField(auto_now_add=True)
+    ticket_count = models.IntegerField(blank=False, null=False)
+
+
 
 
 
