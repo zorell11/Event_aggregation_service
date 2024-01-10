@@ -32,6 +32,11 @@ class Event(models.Model):
     event_video = models.CharField(max_length=128, null=True, blank=True)
 
 
+    def __str__(self):
+        #return f'{self.event_name} - {self.date_from}'
+        return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
+
+
 class Comment(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
     user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
@@ -42,9 +47,7 @@ class Comment(models.Model):
     comment_date = models.DateTimeField(auto_now_add=True)
 
 
-class SigningUp(models.Model):
-    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
-    user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
-    signing_up_date = models.DateTimeField(auto_now_add=True)
-    ticket_count = models.IntegerField(blank=False, null=False)
+
+
+
 
