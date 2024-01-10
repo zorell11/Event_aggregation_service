@@ -18,3 +18,5 @@ def event_detail(request, pk):
     content = {'event': event}
     return render(request, 'events/event_detail.html', content)
 
+
+

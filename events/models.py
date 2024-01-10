@@ -31,6 +31,11 @@ class Event(models.Model):
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
     event_video = models.CharField(max_length=128, null=True, blank=True)
 
+# todo get time date
+    def get_time_from(self):
+        pass
+    def get_time_to(self):
+        pass
 
     def __str__(self):
         #return f'{self.event_name} - {self.date_from}'
