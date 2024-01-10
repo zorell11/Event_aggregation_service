@@ -9,6 +9,22 @@ events
 users
 cart
 
+#main menu:
+Domov(Hlavna stranka)
+Divadlo
+Hudba
+Festival
+Sport
+Zabava
+Ostatne
+
+
+##Ideas:
+- login via FB or google account
+- komentar na ktory odpove oranizator
+- organizatorovi sa po prihlaseni zobrazi notifikacia o novom komentari k eventu, aj pri kupe listka
+- viacjazykova stranka 
+
 
 # Služba sdružování událostí
 ## Stručný popis systému

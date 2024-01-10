@@ -31,15 +31,19 @@ class Event(models.Model):
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
     event_video = models.CharField(max_length=128, null=True, blank=True)
 
-# todo get time date
-    def get_time_from(self):
-        pass
-    def get_time_to(self):
-        pass
-
     def __str__(self):
         #return f'{self.event_name} - {self.date_from}'
         return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
+
+
+    def get_time_from(self):
+        mins = '{:02}'.format(self.date_from.minute)
+        hours = '{:02}'.format(self.date_from.hour)
+        return f'{self.date_from.day}.{self.date_from.month}.{self.date_from.year} {hours}:{mins}'
+    def get_time_to(self):
+        mins = '{:02}'.format(self.date_to.minute)
+        hours = '{:02}'.format(self.date_to.hour)
+        return f'{self.date_to.day}.{self.date_to.month}.{self.date_to.year} {hours}:{mins}'
 
 
 class Comment(models.Model):
