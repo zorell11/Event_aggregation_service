@@ -4,5 +4,15 @@
 {% block content %}
 
 <h1>{{ event.event_name }}</h1>
+<p><b>{{ event.date_from.day }}.{{ event.date_from.month }}.{{ event.date_from.year }} {{ event.date_from.hour }}:{{ event.date_from.minute }}
+    - {{ event.date_to.day }}.{{ event.date_to.month }}.{{ event.date_to.year }}  {{ event.date_to.hour }}:{{ event.date_to.minute }}</b></p>
+<p>{{ event.place }}, {{ event.address }} </p>
+<button>Koupit vstupenku</button>
+<img src="{{ event.event_image.url }}" width="150px">    #todo
+<p>{{ event.description }} </p>
 
 {% endblock%}
+
+
+
+
