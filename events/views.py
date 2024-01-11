@@ -1,10 +1,11 @@
+from builtins import print
+
 from django.shortcuts import render
 
 from .models import Event, Category
 
+
 # Create your views here.
-
-
 
 def index(request):
     events = Event.objects.all()

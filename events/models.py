@@ -2,6 +2,7 @@ from _ast import Pass
 
 from django.db import models
 from accounts.models import Organizer, CustomUser
+from django.core.validators import MinLengthValidator
 
 
 # Create your models here.
@@ -25,7 +26,8 @@ class Event(models.Model):
     address = models.CharField(max_length=32, blank=False, null=False)
     date_from = models.DateTimeField(blank=False, null=False)
     date_to = models.DateTimeField(blank=False, null=False)
-    description = models.TextField(blank=False, null=False)
+    description = models.TextField(blank=False, null=False,
+                                   validators=[MinLengthValidator(50, 'the field must contain at least 50 characters')])
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=False, blank=False)
     capacity = models.IntegerField(blank=False, null=False)
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
@@ -60,6 +62,8 @@ class SigningUp(models.Model):
     user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False)
+
+
 
 
 
