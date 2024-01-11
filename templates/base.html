@@ -10,7 +10,28 @@
     <title>Document</title>
 </head>
 <body>
+    <header>
+        <nav>
+            <div class="logo">EventDB</div>
+            <ul>
+                <li><a href="{% url 'index' %}">Domov</a></li>
+                <li><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></li>
+                <li><a href="{% url 'event_category' 'Hudba' %}">Hudba</a></li>
+                <li><a href="{% url 'event_category' 'Festival' %}">Festival</a></li>
+                <li><a href="{% url 'event_category' 'Sport' %}">Sport</a></li>
+                <li><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></li>
+                <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></li>
+            </ul>
+        </nav>
+    </header>
     {% block content %}
+
+
+
+
+
+
+
 
     {% endblock %}
 

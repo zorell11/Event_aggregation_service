@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'events',
     'accounts',
+    'django_dump_load_utf8',
 ]
 
 MIDDLEWARE = [
