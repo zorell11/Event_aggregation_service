@@ -24,6 +24,7 @@
 - [ ] komentar na ktory odpove oranizator 
 - [ ] organizatorovi sa po prihlaseni zobrazi notifikacia o novom komentari k eventu, aj pri kupe listka
 - [ ] viacjazykova stranka
+- [ ] create event wathclist for user
 
 
 ## Stručný popis systému
@@ -73,7 +74,7 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
 ## Vyhledávač událostí
 #### V horní části domovské stránky by měl být formulář, který bude obsahovat:
   - [ ] textové pole pro zadání fráze,
-  - [ ]volitelné (rozbalovací seznam): 
+  - [ ] volitelné (rozbalovací seznam): 
     - [ ] budoucí, 
     - [ ] probíhající 
     - [ ] budoucí, 
@@ -120,7 +121,7 @@ seznam by měl umožňovat filtrování:
 ##### role:
 - [ ] vše
 - [ ] organizátor
- - [ ]účastník
+- [ ] účastník
 ##### datum konání:
 - [ ] budoucí
 - [ ] právě probíhající nebo budoucí
