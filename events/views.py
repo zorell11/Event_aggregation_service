@@ -38,27 +38,27 @@ def event_category(request, name):
 #### forms:
 
 
-def event_image_view(request):
-
-    if request.method == 'POST':
-        form = EventForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = EventForm()
-    return render(request, 'events/create_event.html', {'form': form})
-
-
-# class PersonCreateView(CreateView):
-#     template_name = 'events/create_event.html'
-#     form_class = EventForm
-#     success_url = reverse_lazy('index')
+# def event_image_view(request):
 #
-#     def form_invalid(self, form):
-#         LOGGER.warning('User provided invalid data')
-#         return super().form_invalid(form)
+#     if request.method == 'POST':
+#         form = EventForm(request.POST, request.FILES)
+#
+#         if form.is_valid():
+#             form.save()
+#             return redirect('index')
+#     else:
+#         form = EventForm()
+#     return render(request, 'events/create_event.html', {'form': form})
+
+
+class PersonCreateView(CreateView):
+    template_name = 'events/create_event.html'
+    form_class = EventForm
+    success_url = reverse_lazy('index')
+
+    def form_invalid(self, form):
+        LOGGER.warning('User provided invalid data')
+        return super().form_invalid(form)
 
 
 

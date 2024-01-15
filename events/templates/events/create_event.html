@@ -5,7 +5,7 @@
 
 <h1>Add new event</h1>
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table>{{ form.as_p }}</table>
     <input type="submit" value="Pridat">

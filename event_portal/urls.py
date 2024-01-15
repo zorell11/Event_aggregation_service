@@ -24,8 +24,8 @@ from events.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('event/create/', event_image_view, name='event_create'),
-    #path('event/create/', PersonCreateView.as_view(), name='event_create'),
+    #path('event/create/', event_image_view, name='event_create'),
+    path('event/create/', PersonCreateView.as_view(), name='event_create'),
     path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
