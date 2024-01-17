@@ -44,5 +44,8 @@ urlpatterns = [
     #path('event/create/', event_image_view, name='event_create'),
     path('event/create/', PersonCreateView.as_view(), name='event_create'),
     path('event/<pk>/', event_detail, name='event_detail'),
-    path('event/category/<name>/', event_category, name='event_category')
+    path('event/category/<name>/', event_category, name='event_category'),
+
+    path('event/addcomment', add_comment, name='add_comment')
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,8 +3,9 @@ from concurrent.futures._base import LOGGER
 from django.shortcuts import render, redirect
 from django.views.generic import FormView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
-from .models import Event, Category
+from .models import Event, Category, Comment, Organizer
 
 from .forms import EventForm
 
@@ -21,16 +22,30 @@ def index(request):
 
 def event_detail(request, pk):
     event = Event.objects.get(id=pk)
-    content = {'event': event}
+    comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
+    content = {'event': event, 'comments': comments}
     return render(request, 'events/event_detail.html', content)
 
 
 def event_category(request, name):
     category = Category.objects.get(name=name)
-    print(category.name)
     events = Event.objects.filter(category=category)
     content = {'events': events, 'category': category}
     return render(request, 'events/index.html', content)
+
+@login_required
+def add_comment(request):
+    user = request.user
+    print(user)
+    if request.method == 'POST':
+        print(request.POST)
+        event_id = request.POST.get('event_id')
+        event_obj = Event.objects.get(id=event_id)
+        comment = request.POST.get('comment').strip()
+        if comment:
+            Comment.objects.create(event_id=event_obj, user_id=user, comment=comment)
+
+    return redirect(f'/event/{event_id}')
 
 
 
@@ -69,10 +84,16 @@ class PersonCreateView(FormView):
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
+
+        user = Organizer.objects.get(email=self.request.user)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
+        # if cleaned_data['date_from'] >= cleaned_data['date_to']:
+        #     LOGGER.warning('User provided invalid data')
+        #     return super().form_invalid(form)
+        print(cleaned_data['date_from'])
         new_event = Event.objects.create(
-            organizer_id = cleaned_data['organizer_id'],
+            organizer_id = user,
             event_name = cleaned_data['event_name'],
             place = cleaned_data['place'],
             address = cleaned_data['address'],
@@ -84,8 +105,6 @@ class PersonCreateView(FormView):
             event_video = cleaned_data['event_video'],
             category = cleaned_data['category'],
         )
-
-
         return result
 
     def form_invalid(self, form):

@@ -14,6 +14,10 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
+    def print_username(self):
+        username, domain = self.email.split('@')
+        return username
+
 class Organizer(CustomUser):
     organzier = models.BooleanField(default=True)
     company_name = models.TextField(null=False, blank=False)
