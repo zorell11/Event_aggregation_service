@@ -43,6 +43,7 @@ urlpatterns = [
     path('', index, name='index'),
     #path('event/create/', event_image_view, name='event_create'),
     path('event/create/', PersonCreateView.as_view(), name='event_create'),
+    path('event/new_date/<jojo>/', AddEventCopyView.as_view(), name='add_event_copy'),
     path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category'),
 

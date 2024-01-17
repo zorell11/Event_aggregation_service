@@ -17,6 +17,11 @@ class Category(models.Model):
         return f'{self.id}. {self.name}'
 
 
+# class Dates(models.Model):
+#     event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True, blank=False)
+#     date_from = models.DateTimeField(blank=False, null=False)
+#     date_to = models.DateTimeField(blank=False, null=False)
+
 class Event(models.Model):
     organizer_id = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING, null=True, blank=False)
     event_name = models.CharField(max_length=128, blank=False, null=False)
@@ -43,6 +48,8 @@ class Event(models.Model):
         mins = '{:02}'.format(self.date_to.minute)
         hours = '{:02}'.format(self.date_to.hour)
         return f'{self.date_to.day}.{self.date_to.month}.{self.date_to.year} {hours}:{mins}'
+
+
 
 
 class Comment(models.Model):
