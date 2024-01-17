@@ -6,7 +6,13 @@
 <h1>{{ event.event_name }}</h1>
 <img src="{{ event.event_image.url }}" width="300px">
 
-<p>Datum: <b>{{event.get_time_from}} - {{event.get_time_to}}</b></p>
+<div>
+    <p>Datum: <b>{{event.get_time_from}} - {{event.get_time_to}}</b></p>
+
+    {% if request.user.email == event.organizer_id.email  %}
+        <a href="{% url 'add_event_copy' event.id %}">Pridat event s inym datumom</a>
+    {% endif %}
+</div>
 <p>Miesto: {{ event.place }}</p>
 <p>Adreesa: {{ event.address }}</p>
 <h2>Vstupekny</h2>

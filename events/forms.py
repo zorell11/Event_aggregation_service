@@ -27,3 +27,14 @@ class EventForm(forms.Form):
         if clean_data.get('date_from') >= clean_data.get('date_to'):
             raise forms.ValidationError('Event cannot end before starts.')
         return clean_data
+
+
+class AddEventCopyForm(forms.Form):
+    date_from = forms.DateTimeField(input_formats=['%I:%M %p %d-%b-%Y'],
+             widget = forms.DateTimeInput(
+                 attrs={'type': 'datetime-local'},
+                 format='%I:%M %p %d-%b-%Y'))
+    date_to = forms.DateTimeField(input_formats=['%I:%M %p %d-%b-%Y'],
+             widget = forms.DateTimeInput(
+                 attrs={'type': 'datetime-local'},
+                 format='%I:%M %p %d-%b-%Y'))
