@@ -1,7 +1,7 @@
 venv
 db.sqlite3
-#events/migrations
-accounts/migrations
+# events/migrations
+# accounts/migrations
 
 /.idea/vcs.xml
 /.idea/Event_aggregation_service.iml
