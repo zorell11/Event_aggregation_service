@@ -17,18 +17,13 @@ class Category(models.Model):
         return f'{self.id}. {self.name}'
 
 
-# class Dates(models.Model):
-#     event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True, blank=False)
-#     date_from = models.DateTimeField(blank=False, null=False)
-#     date_to = models.DateTimeField(blank=False, null=False)
+
 
 class Event(models.Model):
     organizer_id = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING, null=True, blank=False)
     event_name = models.CharField(max_length=128, blank=False, null=False)
     place = models.CharField(max_length=32, blank=False, null=False)
     address = models.CharField(max_length=32, blank=False, null=False)
-    date_from = models.DateTimeField(blank=False, null=False)
-    date_to = models.DateTimeField(blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, null=True, blank=False)
     capacity = models.IntegerField(blank=False, null=False)
@@ -37,19 +32,24 @@ class Event(models.Model):
 
     def __str__(self):
         #return f'{self.event_name} - {self.date_from}'
-        return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
+        #return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
+        return f'{self.event_name}'
+
+
+class EventDate(models.Model):
+    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True, blank=False)
+    date_from = models.DateTimeField(blank=False, null=False)
+    date_to = models.DateTimeField(blank=True, null=True)
 
 
     def get_time_from(self):
-        mins = '{:02}'.format(self.date_from.minute)
-        hours = '{:02}'.format(self.date_from.hour)
-        return f'{self.date_from.day}.{self.date_from.month}.{self.date_from.year} {hours}:{mins}'
+            mins = '{:02}'.format(self.date_from.minute)
+            hours = '{:02}'.format(self.date_from.hour)
+            return f'{self.date_from.day}.{self.date_from.month}.{self.date_from.year} {hours}:{mins}'
     def get_time_to(self):
         mins = '{:02}'.format(self.date_to.minute)
         hours = '{:02}'.format(self.date_to.hour)
         return f'{self.date_to.day}.{self.date_to.month}.{self.date_to.year} {hours}:{mins}'
-
-
 
 
 class Comment(models.Model):

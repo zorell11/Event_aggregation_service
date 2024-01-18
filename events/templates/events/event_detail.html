@@ -7,7 +7,10 @@
 <img src="{{ event.event_image.url }}" width="300px">
 
 <div>
-    <p>Datum: <b>{{event.get_time_from}} - {{event.get_time_to}}</b></p>
+    <p>Datum:</p>
+    {% for event_date in event_dates %}
+      <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b></p>
+    {% endfor %}
 
     {% if request.user.email == event.organizer_id.email  %}
         <a href="{% url 'add_event_copy' event.id %}">Pridat event s inym datumom</a>
