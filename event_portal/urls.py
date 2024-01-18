@@ -35,7 +35,7 @@ urlpatterns = [
     path('accounts/logout/', LogoutView.as_view(), name='logout'),
     path('accounts/usersignup/', UserSignUpView.as_view(), name='user_signup'),
     path('accounts/organizersignup/', OrganizerSignUpForm.as_view(), name='organizer_signup'),
-    path('accounts/profile', user_profile, name='profile'),
+    path('accounts/profile/', user_profile, name='profile'),
     path('accounts/', include('django.contrib.auth.urls')),
 
 
@@ -43,7 +43,7 @@ urlpatterns = [
     path('', index, name='index'),
     #path('event/create/', event_image_view, name='event_create'),
     path('event/create/', PersonCreateView.as_view(), name='event_create'),
-    path('event/new_date/<jojo>/', AddEventCopyView.as_view(), name='add_event_copy'),
+    path('event/new_date/<pk>/', AddEventCopyView.as_view(), name='add_event_copy'),
     path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category'),
 
