@@ -5,9 +5,11 @@ from django.views.generic import FormView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from .models import Event, Category, Comment, Organizer
+from .models import Event, Category, Comment, Organizer, EventDate
 
 from .forms import EventForm, AddEventCopyForm
+
+from django.urls import reverse
 
 # Create your views here.
 
@@ -22,10 +24,11 @@ def index(request):
 
 def event_detail(request, pk):
     event = Event.objects.get(id=pk)
-    #event = Event.objects.get(id=pk).event_name
-    #event = Event.objects.filter(event_name=event)
+    event_dates = EventDate.objects.filter(event_id=pk)
+    # event = Event.objects.get(id=pk).event_name
+    # event = Event.objects.filter(event_name=event)
     comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
-    content = {'event': event, 'comments': comments}
+    content = {'event': event, 'event_dates': event_dates, 'comments': comments}
     return render(request, 'events/event_detail.html', content)
     #return render(request, 'events/test.html', content)
 
@@ -84,36 +87,45 @@ def add_comment(request):
 class PersonCreateView(FormView):
     template_name = 'events/create_event.html'
     form_class = EventForm
-    success_url = reverse_lazy('index')
+    #success_url = reverse_lazy('event_detail', kwargs={'pk': self.pk})
+
+
 
     def form_valid(self, form):
-
+        self.pk = 1
         user = Organizer.objects.get(email=self.request.user)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
-        # if cleaned_data['date_from'] >= cleaned_data['date_to']:
-        #     LOGGER.warning('User provided invalid data')
-        #     return super().form_invalid(form)
-        print(cleaned_data['date_from'])
+
         new_event = Event.objects.create(
             organizer_id = user,
             event_name = cleaned_data['event_name'],
             place = cleaned_data['place'],
             address = cleaned_data['address'],
-            date_from = cleaned_data['date_from'],
-            date_to = cleaned_data['date_to'],
             description = cleaned_data['description'],
             capacity = cleaned_data['capacity'],
             event_image = cleaned_data['event_image'],
             event_video = cleaned_data['event_video'],
             category = cleaned_data['category'],
         )
-        return result
+        self.pk = new_event.id
+
+        new_date = EventDate.objects.create(
+            event_id = new_event,
+            date_from = cleaned_data['date_from'],
+            date_to = cleaned_data['date_to']
+        )
+        #return result
+        return super(PersonCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
         LOGGER.warning('User provided invalid data')
         return super().form_invalid(form)
 
+    def get_success_url(self):
+
+        print(self.pk)
+        return reverse('event_detail', kwargs={'pk': self.pk})
 
 class AddEventCopyView(FormView):
     template_name = 'events/add_event_copy.html'
@@ -121,36 +133,15 @@ class AddEventCopyView(FormView):
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
-        pk = self.kwargs.get('jojo')
-        print(pk)
+        pk = self.kwargs.get('pk')
         event = Event.objects.get(id=pk)
-        print(event)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
-        print(cleaned_data['date_from'])
-        print(cleaned_data['date_to'])
-        print(event.organizer_id)
-        print(event.id)
-        print(event.event_name)
-        print(event.place)
-        print(event.address)
-        print(event.description)
-        print(event.capacity)
-        print(event.category)
-        user = Organizer.objects.get(email=event.organizer_id)
-        print(user)
-        new_event = Event.objects.create(
-            organizer_id = user,
-            event_name = event.event_name,
-            place = event.place,
-            address = event.address,
+        # user = event.organizer_id
+        EventDate.objects.create(
+            event_id = event,
             date_from = cleaned_data['date_from'],
-            date_to = cleaned_data['date_to'],
-            description = event.description,
-            capacity = event.capacity,
-            event_image = event.event_image,
-            event_video = event.event_video,
-            category = event.category,
+            date_to = cleaned_data['date_to']
         )
 
         return result

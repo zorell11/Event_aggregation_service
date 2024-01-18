@@ -50,18 +50,18 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
   - [ ] přihlašovací údaje (email) – s kontrolou správnosti emailu,
   - [ ] heslo - musí sestávat nejméně z 8 znaků (ne však z více než 30 znaků),
   - [ ]  zobrazované jméno – toto pole nemůže zůstat prázdné nebo obsahovat pouze mezery, maximální délka je 50 znaků.
-  - [ ]  email použitý k registraci může být použit pouze jednou.
-  - [ ]  uživatel by měl mít přiřazené systémové role, které budou pokrývat alespoň dva případy: organizátor a běžný uživatel. 
-  - [ ] Každá registrovaná osoba automaticky získává roli „standardního uživatele“.
+  - [X]  email použitý k registraci může být použit pouze jednou.
+  - [X]  uživatel by měl mít přiřazené systémové role, které budou pokrývat alespoň dva případy: organizátor a běžný uživatel. 
+  - [X] Každá registrovaná osoba automaticky získává roli „standardního uživatele“.
   - [ ]  heslo je uloženo v databázi ve formě, která zabraňuje jeho záměrnému prolomení / obnovení
 ## Přihlášení uživatele
 - [ ] přihlašovací formulář obsahuje přihlašovací jméno a heslo.
-- [ ] přihlašování pomocí django.contrib.auth (pro vytvoření příslušné konfigurace).
-- [ ] po úspěšném přihlášení by měl být uživatel přesměrován na domovskou stránku, kde se místo tlačítek Přihlášení / Zaregistrovat se zobrazí informace: "Přihlášen jako: email
+- [X] přihlašování pomocí django.contrib.auth (pro vytvoření příslušné konfigurace).
+- [X] po úspěšném přihlášení by měl být uživatel přesměrován na domovskou stránku, kde se místo tlačítek Přihlášení / Zaregistrovat se zobrazí informace: "Přihlášen jako: email
 ## Přidání nové události
 ### Událost musí obsahovat minimálně následující body:
 - [ ] název – pole nemůže zůstat prázdné nebo obsahovat pouze mezery,
-- [ ] datum od/do – povinné (volitelné zaškrtnutí, zda jde o budoucí datum),
+- [X] datum od/do – povinné (volitelné zaškrtnutí, zda jde o budoucí datum),
 - [ ] popis – minimálně 20 znaků.
 - [ ] událost musí být spojena s uživatelem, který ji přidal
 ## Seznam událostí

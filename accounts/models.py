@@ -24,6 +24,8 @@ class Organizer(CustomUser):
     bank_accunt = models.CharField(max_length=32, null=False, blank=False)
     company_ico = models.CharField(max_length=32, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
     class Meta:
         verbose_name_plural = "Organizers"
