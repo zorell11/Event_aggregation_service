@@ -9,6 +9,8 @@ from .models import Event, Category, Comment, Organizer, EventDate
 
 from .forms import EventForm, AddEventCopyForm
 
+from django.urls import reverse
+
 # Create your views here.
 
 
@@ -85,49 +87,53 @@ def add_comment(request):
 class PersonCreateView(FormView):
     template_name = 'events/create_event.html'
     form_class = EventForm
-    success_url = reverse_lazy('index')
+    #success_url = reverse_lazy('event_detail', kwargs={'pk': self.pk})
+
+
 
     def form_valid(self, form):
-
+        self.pk = 1
         user = Organizer.objects.get(email=self.request.user)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
-        # if cleaned_data['date_from'] >= cleaned_data['date_to']:
-        #     LOGGER.warning('User provided invalid data')
-        #     return super().form_invalid(form)
-        #print(cleaned_data['date_from'])
+
         new_event = Event.objects.create(
             organizer_id = user,
             event_name = cleaned_data['event_name'],
             place = cleaned_data['place'],
             address = cleaned_data['address'],
-            # date_from = cleaned_data['date_from'],
-            # date_to = cleaned_data['date_to'],
             description = cleaned_data['description'],
             capacity = cleaned_data['capacity'],
             event_image = cleaned_data['event_image'],
             event_video = cleaned_data['event_video'],
             category = cleaned_data['category'],
         )
+        self.pk = new_event.id
+
         new_date = EventDate.objects.create(
             event_id = new_event,
             date_from = cleaned_data['date_from'],
             date_to = cleaned_data['date_to']
         )
-        return result
+        #return result
+        return super(PersonCreateView, self).form_valid(form)
 
     def form_invalid(self, form):
         LOGGER.warning('User provided invalid data')
         return super().form_invalid(form)
 
+    def get_success_url(self):
+
+        print(self.pk)
+        return reverse('event_detail', kwargs={'pk': self.pk})
 
 class AddEventCopyView(FormView):
     template_name = 'events/add_event_copy.html'
     form_class = AddEventCopyForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('event_detail')
 
     def form_valid(self, form):
-        pk = self.kwargs.get('jojo')
+        pk = self.kwargs.get('pk')
         event = Event.objects.get(id=pk)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
