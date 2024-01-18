@@ -25,8 +25,8 @@ def index(request):
 def event_detail(request, pk):
     event = Event.objects.get(id=pk)
     event_dates = EventDate.objects.filter(event_id=pk)
-    #event = Event.objects.get(id=pk).event_name
-    #event = Event.objects.filter(event_name=event)
+    # event = Event.objects.get(id=pk).event_name
+    # event = Event.objects.filter(event_name=event)
     comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
     content = {'event': event, 'event_dates': event_dates, 'comments': comments}
     return render(request, 'events/event_detail.html', content)
@@ -130,15 +130,15 @@ class PersonCreateView(FormView):
 class AddEventCopyView(FormView):
     template_name = 'events/add_event_copy.html'
     form_class = AddEventCopyForm
-    success_url = reverse_lazy('event_detail')
+    success_url = reverse_lazy('index')
 
     def form_valid(self, form):
         pk = self.kwargs.get('pk')
         event = Event.objects.get(id=pk)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
-        user = Organizer.objects.get(email=event.organizer_id)
-        new_date = EventDate.objects.create(
+        # user = event.organizer_id
+        EventDate.objects.create(
             event_id = event,
             date_from = cleaned_data['date_from'],
             date_to = cleaned_data['date_to']
