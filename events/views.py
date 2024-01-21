@@ -5,7 +5,7 @@ from django.views.generic import FormView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 
-from .models import Event, Category, Comment, Organizer, EventDate
+from .models import Event, Category, Comment, Organizer, EventDate, SigningUp
 
 from .forms import EventForm, AddEventCopyForm
 
@@ -55,33 +55,64 @@ def add_comment(request):
 
 
 
+from django.db.models import Sum
+def add_num_ticket(request):
+    user = request.user
+    if request.method == 'POST':
+        print(request.POST)
+        event_id = int(request.POST.get('event_id'))
+        event_date_id = int(request.POST.get('event_date'))
+        event = Event.objects.get(id=event_id)
+        event_date = EventDate.objects.get(id=event_date_id)
+        tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id, status='P').aggregate(Sum('ticket_count'))['ticket_count__sum']
+        print(tickets_sold)
+        print(100*'#')
+        if tickets_sold == None:
+            tickets_sold = 0
+        available_tickets = event.capacity - tickets_sold
+        content = {'event': event, 'event_date':event_date ,'available_tickets': available_tickets}
+        return render(request, 'events/choose_tickets.html', content)
+
+
+from django.core.exceptions import ObjectDoesNotExist
+def shopping_cart(request):
+    user = request.user
+    print(type(user))
+    if request.method == 'POST':
+
+        print(request.POST)
+        event_id = int(request.POST.get('event_id'))
+        event_date_id = int(request.POST.get('event_date'))
+        ticket_num = int(request.POST.get('ticket_num'))
+        try:
+            ticket_booked = SigningUp.objects.get(user_id=user, event_id=event_id, event_date_id=event_date_id, status='N')
+            print(ticket_booked.ticket_count)
+            new_ticket_count = ticket_num + ticket_booked.ticket_count
+            #ticket_booked.update(ticket_count=new_ticket_count)
+            ticket_booked.ticket_count = new_ticket_count
+            ticket_booked.save()
+        except :
+            event = Event.objects.get(id=event_id)
+            event_date = EventDate.objects.get(id=event_date_id)
+            SigningUp.objects.create(
+                event_id = event,
+                user_id = user,
+                event_date = event_date,
+                ticket_count = ticket_num,
+                status = 'N'
+            )
+
+
+
+    orders = SigningUp.objects.filter(user_id=user,status='N')
+    print(orders)
+    content = {'orders': orders}
+
+
+    return render(request, 'events/shopping_cart.html', content)
+
 
 #### forms:
-
-
-# def event_image_view(request):
-#
-#     if request.method == 'POST':
-#         form = EventForm(request.POST, request.FILES)
-#
-#         if form.is_valid():
-#             form.save()
-#             return redirect('index')
-#     else:
-#         form = EventForm()
-#     return render(request, 'events/create_event.html', {'form': form})
-
-
-# class PersonCreateView(CreateView):
-#     template_name = 'events/create_event.html'
-#     form_class = EventForm
-#     success_url = reverse_lazy('index')
-#
-#     def form_invalid(self, form):
-#         LOGGER.warning('User provided invalid data')
-#         return super().form_invalid(form)
-
-
 
 
 class PersonCreateView(FormView):

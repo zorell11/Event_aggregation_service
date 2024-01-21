@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h2>Nakupny kosik</h2>
+
+<ul>
+{% for order in orders %}
+    <li>{{order}}</li>
+{% empty %}
+    <h3>Kosik je prazdny</h3>
+</ul>
+{% endfor %}
+{% endblock%}
