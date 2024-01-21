@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Event, Category
 
+from datetime import datetime, date, timedelta
 
 class EventForm(forms.Form):
     #organizer_id = forms.ModelChoiceField(queryset=Organizer.objects)
@@ -24,9 +25,29 @@ class EventForm(forms.Form):
 
     def clean(self):
         clean_data = super().clean()
+        date_from = clean_data.get('date_from')
+        print(10*'#')
+        print(type(date_from))
+        print(date_from)
+        print(type(date_from.date()))
+        print(date_from.date())
+        print(date.today())
+        print(type(date.today()))
+
         if clean_data.get('date_from') >= clean_data.get('date_to'):
-            raise forms.ValidationError('Event cannot end before starts.')
-        return clean_data
+            raise forms.ValidationError('Koniec podujatia nemože byť pred jej začiatkom!')
+            return clean_data
+
+
+        if date.today() == date_from.date():
+            raise forms.ValidationError('Začiatok podujatia nemôže byť dnešný dátum!')
+            return clean_data
+        elif date.today() > date_from.date():
+            raise forms.ValidationError('Začiatok podujatia nemôže byť z minulosti!')
+            return clean_data
+
+
+
 
 
 class AddEventCopyForm(forms.Form):
