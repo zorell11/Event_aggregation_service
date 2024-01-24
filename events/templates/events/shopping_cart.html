@@ -105,6 +105,7 @@
 
     <form action="{% url 'order_success' %}" method="post">
         {% csrf_token %}
+        <input type="hidden" name="" value="">
         <input type="submit" name="" value="Zaplatiť {{full_price}} € Objednávka s povinnosťou platby">
     </form>
 

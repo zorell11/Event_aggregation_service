@@ -27,14 +27,20 @@ def index(request):
     return render(request, 'events/index.html', content)
 
 
-
 def event_detail(request, pk):
+    #available_tickets = available_ticket(request)
+    #print(available_tickets)
     event = Event.objects.get(id=pk)
     event_dates = EventDate.objects.filter(event_id=pk)
     # event = Event.objects.get(id=pk).event_name
     # event = Event.objects.filter(event_name=event)
+    event_date_free_tickets = {}
+    for event_date in event_dates:
+        tickets_sold = SigningUp.objects.filter(event_id=pk, event_date=event_date.id).aggregate(Sum('ticket_count'))['ticket_count__sum']
+        tickets_sold = 0 if tickets_sold == None else tickets_sold
+        event_date_free_tickets[event_date.id] = event.capacity-tickets_sold
     comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
-    content = {'event': event, 'event_dates': event_dates, 'comments': comments}
+    content = {'event': event, 'event_dates': event_dates, 'comments': comments, 'event_date_free_tickets': event_date_free_tickets}
     return render(request, 'events/event_detail.html', content)
     #return render(request, 'events/test.html', content)
 
@@ -64,6 +70,19 @@ def add_comment(request):
 
 from django.db.models import Sum
 
+
+def available_ticket(request):
+    event_id = int(request.POST.get('event_id'))
+    event_date_id = int(request.POST.get('event_date'))
+    event = Event.objects.get(id=event_id)
+    tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id).aggregate(Sum('ticket_count'))['ticket_count__sum']
+    print(tickets_sold)
+    print(100*'#')
+    if tickets_sold == None:
+        tickets_sold = 0
+    return event.capacity - tickets_sold
+
+
 @login_required
 def add_num_ticket(request):
     user = request.user
@@ -73,13 +92,14 @@ def add_num_ticket(request):
         event_date_id = int(request.POST.get('event_date'))
         event = Event.objects.get(id=event_id)
         event_date = EventDate.objects.get(id=event_date_id)
-        tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id, status='P').aggregate(Sum('ticket_count'))['ticket_count__sum']
-        print(tickets_sold)
-        print(100*'#')
-        if tickets_sold == None:
-            tickets_sold = 0
-        available_tickets = event.capacity - tickets_sold
-        content = {'event': event, 'event_date':event_date ,'available_tickets': available_tickets}
+        #tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id).aggregate(Sum('ticket_count'))['ticket_count__sum']
+        # print(tickets_sold)
+        # print(100*'#')
+        # if tickets_sold == None:
+        #     tickets_sold = 0
+        #available_tickets = event.capacity - tickets_sold
+        available_tickets = available_ticket(request)
+        content = {'event': event, 'event_date':event_date,'available_tickets': available_tickets}
         return render(request, 'events/choose_tickets.html', content)
 
 
@@ -88,6 +108,9 @@ from django.core.exceptions import ObjectDoesNotExist
 def shopping_cart(request):
     user = request.user
     print(type(user))
+    print(request)
+    print(request.session)
+    print(50*'##')
     if request.method == 'POST':
 
         print(request.POST)
@@ -189,6 +212,9 @@ class AddEventCopyView(FormView):
 
 def order_success(request):
     user = request.user
-    print(user)
+    orders = SigningUp.objects.filter(user_id=user,status='N')
+    for order in orders:
+        order.status = 'P'
+        order.save()
     if request.method == 'POST':
         return render(request, 'events/order_success.html')
