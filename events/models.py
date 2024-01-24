@@ -29,6 +29,7 @@ class Event(models.Model):
     capacity = models.IntegerField(blank=False, null=False)
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
     event_video = models.CharField(max_length=128, null=True, blank=True)
+    ticket_price = models.FloatField(null=False, blank=False)
 
 
 
@@ -74,6 +75,7 @@ class SigningUp(models.Model):
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False)
     status = models.CharField(max_length=1, choices=PAYMENT_STATUS, null=True)
+
 
 
 

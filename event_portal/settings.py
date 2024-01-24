@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'events',
     'accounts',
     'django_dump_load_utf8',
+    'templatetags.filter',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'filter': 'templatetags.filter',
+            }
         },
     },
 ]

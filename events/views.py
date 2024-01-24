@@ -14,6 +14,12 @@ from django.urls import reverse
 # Create your views here.
 
 
+# from django import template
+# register = template.Library()
+# @register.filter
+# def multiply(value, arg):
+#     return value * arg
+
 
 def index(request):
     events = Event.objects.all()
@@ -55,7 +61,10 @@ def add_comment(request):
 
 
 
+
 from django.db.models import Sum
+
+@login_required
 def add_num_ticket(request):
     user = request.user
     if request.method == 'POST':
@@ -75,6 +84,7 @@ def add_num_ticket(request):
 
 
 from django.core.exceptions import ObjectDoesNotExist
+@login_required
 def shopping_cart(request):
     user = request.user
     print(type(user))
@@ -88,7 +98,6 @@ def shopping_cart(request):
             ticket_booked = SigningUp.objects.get(user_id=user, event_id=event_id, event_date_id=event_date_id, status='N')
             print(ticket_booked.ticket_count)
             new_ticket_count = ticket_num + ticket_booked.ticket_count
-            #ticket_booked.update(ticket_count=new_ticket_count)
             ticket_booked.ticket_count = new_ticket_count
             ticket_booked.save()
         except :
@@ -102,13 +111,13 @@ def shopping_cart(request):
                 status = 'N'
             )
 
-
-
     orders = SigningUp.objects.filter(user_id=user,status='N')
+    full_price = 0
+    tickets_price = 0
+    for order in orders:
+        tickets_price += order.event_id.ticket_price*order.ticket_count
     print(orders)
-    content = {'orders': orders}
-
-
+    content = {'orders': orders, 'tickets_price':tickets_price, 'full_price': tickets_price+0.5}
     return render(request, 'events/shopping_cart.html', content)
 
 
@@ -138,6 +147,7 @@ class PersonCreateView(FormView):
             event_image = cleaned_data['event_image'],
             event_video = cleaned_data['event_video'],
             category = cleaned_data['category'],
+            ticket_price = cleaned_data['ticket_price'],
         )
         self.pk = new_event.id
 
@@ -168,7 +178,6 @@ class AddEventCopyView(FormView):
         event = Event.objects.get(id=pk)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
-        # user = event.organizer_id
         EventDate.objects.create(
             event_id = event,
             date_from = cleaned_data['date_from'],
@@ -176,3 +185,10 @@ class AddEventCopyView(FormView):
         )
 
         return result
+
+
+def order_success(request):
+    user = request.user
+    print(user)
+    if request.method == 'POST':
+        return render(request, 'events/order_success.html')

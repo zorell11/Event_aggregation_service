@@ -39,6 +39,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('shopping_cart/', shopping_cart, name='shopping_cart'),
+    path('order_success', order_success, name='order_success'),
 
 
     path('', index, name='index'),

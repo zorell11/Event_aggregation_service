@@ -6,20 +6,23 @@ from datetime import date
 
 class EventForm(forms.Form):
     #organizer_id = forms.ModelChoiceField(queryset=Organizer.objects)
-    event_name = forms.CharField(max_length=128, required=True)
-    place = forms.CharField(max_length=32, required=True)
-    address = forms.CharField(max_length=32, required=True)
+    event_name = forms.CharField(max_length=128, required=True, label="Meno eventu")
+    place = forms.CharField(max_length=32, required=True, label="Miesto")
+    address = forms.CharField(max_length=32, required=True, label="Adresa")
     date_from = forms.DateTimeField(input_formats=['%I:%M %p %d-%b-%Y'],
              widget = forms.DateTimeInput(
                  attrs={'type': 'datetime-local'},
-                 format='%I:%M %p %d-%b-%Y'))
+                 format='%I:%M %p %d-%b-%Y'),
+            label="Od:")
     date_to = forms.DateTimeField(input_formats=['%I:%M %p %d-%b-%Y'],
              widget = forms.DateTimeInput(
                  attrs={'type': 'datetime-local'},
-                 format='%I:%M %p %d-%b-%Y'))
-    description = forms.CharField(required=True)
+                 format='%I:%M %p %d-%b-%Y'),
+            label="Do:")
+    description = forms.CharField(required=True,)
     category = forms.ModelChoiceField(queryset=Category.objects)
     capacity = forms.IntegerField(min_value=1, required=True)
+    ticket_price = forms.FloatField(min_value=1, required=True)
     event_image = forms.ImageField(required=False)
     event_video = forms.CharField(max_length=128, required=False)
 
