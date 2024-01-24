@@ -21,7 +21,6 @@ from django.urls import reverse
 # def multiply(value, arg):
 #     return value * arg
 
-
 def index(request):
     events = Event.objects.all()
     content = {'events': events }

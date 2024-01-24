@@ -49,7 +49,7 @@
 
     {% for comment in comments %}
         <div>
-            </p>{{ comment.comment }}<p>
+            <p>{{ comment.comment }}</p>
             <h6>{{ comment.user_id.get_username }} - {{ comment.comment_date }}</h6>
         </div>
     {% empty %}

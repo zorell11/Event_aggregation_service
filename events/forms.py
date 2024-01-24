@@ -26,6 +26,7 @@ class EventForm(forms.Form):
     event_image = forms.ImageField(required=False)
     event_video = forms.CharField(max_length=128, required=False)
 
+
     def clean(self):
         clean_data = super().clean()
         date_from = clean_data.get('date_from')
