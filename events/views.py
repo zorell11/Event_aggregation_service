@@ -1,3 +1,4 @@
+from builtins import print
 from concurrent.futures._base import LOGGER
 
 from django.shortcuts import render, redirect

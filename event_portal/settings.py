@@ -139,3 +139,5 @@ MEDIA_URL = "images/"
 
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
+
+URL = 'index'

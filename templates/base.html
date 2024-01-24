@@ -1,43 +1,64 @@
 {% load static %}
+
 <!doctype html>
-<html lang="en">
+<html lang="en-us">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>DB Event</title>
+    <link rel="stylesheet" href="{% static 'events/images/styless.css' %}">
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">EventDB</div>
-            <ul>
-                <li><a href="{% url 'index' %}">Domov</a></li>
-                <li><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></li>
-                <li><a href="{% url 'event_category' 'Hudba' %}">Hudba</a></li>
-                <li><a href="{% url 'event_category' 'Festival' %}">Festival</a></li>
-                <li><a href="{% url 'event_category' 'Sport' %}">Sport</a></li>
-                <li><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></li>
-                <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></li>
-                {% if request.user.organizer or request.user.is_superuser %}
-                    <li><a href="{% url 'event_create' %}">Pridat event</a></li>
-                {% endif %}
+
+     <header class="Logo">
+            <img class="headContainer-part" alt="Logo" src="{% static 'events/images/logo.jpg' %}">
+            <a href="{% url 'index' %}"  class="headContainer-center"><h1>DB Event</h1></a>
+        </header>
+
+ <header>
+
+             <div class="menu1" id="menu1">
+
+                   <button><a href="{% url 'event_create' %}">Pridat event</a></button>
                 {% if request.user.is_authenticated %}
-                    <li>Prihlaseny ako:<a href="{% url 'profile' %}">{{request.user}}</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                    <li><a href="{% url 'shopping_cart' %}">Nakupny kosik</a></li>
+                Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}></a>
+                    <a href="{% url 'logout' %}"></a><button>Logout</button>
                 {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'user_signup' %}">Register</a></li>
-                <li><a href="{% url 'organizer_signup' %}">Add event</a></li>
+                <button><a href="{% url 'login' %}">Logout </a>
+                <button><a href="{% url 'user_signup' %}">Register</a>
+                <button><a href="{% url 'organizer_signup' %}">Add event</a>
+                {% endif %}
+             </div>
+
+     <div class="menu2" id="menu2"  >
+                <button><a href="{% url 'index' %}">Domov</a>
+                <button><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a>
+                <button><a href="{% url 'event_category' 'Festival' %}">Festival</a>
+                <button><a href="{% url 'event_category' 'Sport' %}">Sport</a>
+                <button><a href="{% url 'event_category' 'Zabava' %}">Zabava</a>
+                <button><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a>
+                         {% if request.user.organizer or request.user.is_superuser %}
+                <button><a href="{% url 'event_create' %}">Pridat event</a> </button>
+          {% endif %}
+                {% if request.user.is_authenticated %}
+                Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}</a>
+             <button>   <a href="{% url 'logout' %}">Logout</a>
+         {% else %}
+                <button> <a href="{% url 'login' %}">Login</a>
+                <button> <a href="{% url 'user_signup' %}">Register</a>
+                <button> <a href="{% url 'organizer_signup' %}">Add event</a>
                 {% endif %}
 
-            </ul>
-        </nav>
     </header>
+
     {% block content %}
     {% endblock %}
 
-</body>
+
+    <footer>Copyright Created by Pavla Růžičková, Zoltán</footer>
+    <script src="{% static 'viewer/script.js' %} "></script>
+    <body>
+    </body>
+
 </html>
