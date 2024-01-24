@@ -29,6 +29,7 @@ class Event(models.Model):
     capacity = models.IntegerField(blank=False, null=False)
     event_image = models.ImageField(upload_to='images/', default=None, null=False, blank=False)
     event_video = models.CharField(max_length=128, null=True, blank=True)
+    ticket_price = models.FloatField(null=False, blank=False)
 
 
 
@@ -63,15 +64,16 @@ class Comment(models.Model):
     # comment_id = models.IntegerField()
     comment_date = models.DateTimeField(auto_now_add=True)
 
+
+from django.db.models import Sum
 class SigningUp(models.Model):
+    PAYMENT_STATUS = [
+        ("P", "Paid"),
+        ("N", "Not paid"),
+    ]
     event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
     user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    event_date = models.ForeignKey(EventDate, on_delete=models.SET_NULL, null=True)
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False)
-
-
-
-
-
-
-
+    status = models.CharField(max_length=1, choices=PAYMENT_STATUS, null=True)

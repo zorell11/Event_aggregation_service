@@ -18,6 +18,9 @@ class CustomUser(AbstractUser):
         username, domain = self.email.split('@')
         return username
 
+    def get_billing_information(self):
+        return f'{self.first_name} {self.last_name}\n{self.address}\n{self.phone}'
+
 class Organizer(CustomUser):
     organzier = models.BooleanField(default=True)
     company_name = models.TextField(null=False, blank=False)

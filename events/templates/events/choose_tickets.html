@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>{{event.event_name}}</h1>
+<h3>{{event_date.get_time_from}}</h3>
+
+<form action="{% url 'shopping_cart' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="">Zakladne vstupne:</label>
+    <input type="number" placeholder="0" name="ticket_num" id="" min="1" max="{{available_tickets}}">
+    <input type="hidden" name="event_id" value="{{event.id}}">
+    <input type="hidden" name="event_date" value="{{event_date.id}}">
+    {{event.price}}
+    <div>Spolu:</div>
+    <input type="submit" value="Pokračuj do kosíka">
+</form>
+<a href="{% url 'event_detail' event.id%}">Späť</a>
+
+{% endblock%}

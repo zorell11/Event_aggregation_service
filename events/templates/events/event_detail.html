@@ -19,7 +19,27 @@
 <p>Miesto: {{ event.place }}</p>
 <p>Adreesa: {{ event.address }}</p>
 <h2>Vstupekny</h2>
-<button>Koupit vstupenku</button>
+ {% for event_date in event_dates %}
+    <p>
+    <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b>
+    {% for key,value in event_date_free_tickets.items %}
+        {% if key == event_date.id %}
+            {% if not value %}
+                <p>Listky su vypredane!</p>
+            {% endif %}
+
+        {% else %}
+            <form action="{% url 'add_num_ticket' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="event_id" value="{{event.id}}">
+                <input type="hidden" name="event_date" value="{{event_date.id}}">
+                <input type="submit" value="Koupit vstupenku">
+            </form>
+        {% endif %}
+    {% endfor %}
+    </p>
+{% endfor %}
+
 <br>
 <h2>POPIS PODUJATIA</h2>
 <p>{{ event.description }} </p>
