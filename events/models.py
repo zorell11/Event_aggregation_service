@@ -64,6 +64,8 @@ class Comment(models.Model):
     # comment_id = models.IntegerField()
     comment_date = models.DateTimeField(auto_now_add=True)
 
+
+from django.db.models import Sum
 class SigningUp(models.Model):
     PAYMENT_STATUS = [
         ("P", "Paid"),
@@ -75,10 +77,3 @@ class SigningUp(models.Model):
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False)
     status = models.CharField(max_length=1, choices=PAYMENT_STATUS, null=True)
-
-
-
-
-
-
-
