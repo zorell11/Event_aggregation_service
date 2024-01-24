@@ -19,37 +19,34 @@
  <header>
 
              <div class="menu1" id="menu1">
+                 <form action= "{% url 'search' %}" method="post">
+                      {% csrf_token %}
+                     <input type="text" name="search" id="">
+                     
+                 </form>
 
-                   <button><a href="{% url 'event_create' %}">Pridat event</a></button>
                 {% if request.user.is_authenticated %}
                 Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}></a>
-                    <a href="{% url 'logout' %}"></a><button>Logout</button>
+                  <button>  <a href="{% url 'logout' %}">Logout</a></button>
                 {% else %}
-                <button><a href="{% url 'login' %}">Logout </a>
-                <button><a href="{% url 'user_signup' %}">Register</a>
-                <button><a href="{% url 'organizer_signup' %}">Add event</a>
+                <button><a href="{% url 'login' %}">Login </a></button>
+                <button><a href="{% url 'user_signup' %}">Chcete koupit ticket?</a></button>
+                    <button> <a href="{% url 'organizer_signup' %}">Chcete založit event? </a></button>
+
                 {% endif %}
              </div>
 
      <div class="menu2" id="menu2"  >
-                <button><a href="{% url 'index' %}">Domov</a>
-                <button><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a>
-                <button><a href="{% url 'event_category' 'Festival' %}">Festival</a>
-                <button><a href="{% url 'event_category' 'Sport' %}">Sport</a>
-                <button><a href="{% url 'event_category' 'Zabava' %}">Zabava</a>
-                <button><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a>
+                <button><a href="{% url 'index' %}">Domov</a></button>
+                <button><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></button>
+                <button><a href="{% url 'event_category' 'Festival' %}">Festival</a></button>
+                <button><a href="{% url 'event_category' 'Sport' %}">Sport</a></button>
+                <button><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></button>
+                <button><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></button>
                          {% if request.user.organizer or request.user.is_superuser %}
                 <button><a href="{% url 'event_create' %}">Pridat event</a> </button>
-          {% endif %}
-                {% if request.user.is_authenticated %}
-                Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}</a>
-             <button>   <a href="{% url 'logout' %}">Logout</a>
-         {% else %}
-                <button> <a href="{% url 'login' %}">Login</a>
-                <button> <a href="{% url 'user_signup' %}">Register</a>
-                <button> <a href="{% url 'organizer_signup' %}">Add event</a>
-                {% endif %}
-
+                         {% endif %}
+     </div>
     </header>
 
     {% block content %}

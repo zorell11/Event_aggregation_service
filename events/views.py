@@ -65,7 +65,9 @@ def add_comment(request):
 
     return redirect(f'/event/{event_id}')
 
-
+def search(request):
+    content = {}
+    return render(request, 'events/search.html', content)
 
 
 from django.db.models import Sum

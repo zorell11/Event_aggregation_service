@@ -40,7 +40,7 @@ urlpatterns = [
 
     path('shopping_cart/', shopping_cart, name='shopping_cart'),
     path('order_success', order_success, name='order_success'),
-
+    path('search', search, name='search'),
 
     path('', index, name='index'),
     #path('event/create/', event_image_view, name='event_create'),
@@ -49,6 +49,7 @@ urlpatterns = [
     path('event/new_date/<pk>/', AddEventCopyView.as_view(), name='add_event_copy'),
     path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category'),
+
 
 
     path('event/addcomment', add_comment, name='add_comment')
