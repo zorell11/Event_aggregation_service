@@ -6,7 +6,7 @@
     <ul>
         {% for event in events %}
             <li><a href="{% url 'event_detail' event.id %}">{{ event.event_name }} : {{ event.get_time_from }} - {{ event.get_time_to }}  </a> </li>
-       <p>{{ event.description|truncatechars:50 }} </p>
+        <p>{{ event.description|truncatechars:50 }} </p>
 
         {% endfor %}
     </ul>
