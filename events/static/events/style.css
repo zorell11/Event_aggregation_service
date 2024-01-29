@@ -7,8 +7,7 @@
 
 body {
     height: 100vh;
-    background: lightblue;
-    max-width: 1200px;
+    background: #be7547;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -27,7 +26,7 @@ li {
 
 a {
     text-decoration: none;
-    color: #fff;
+    color: black;
     font-size: 1rem;
 }
 
@@ -41,6 +40,18 @@ header {
     position: sticky;
     top: 0px;
     padding: 0 2rem;
+    background-image: url('images/event-bg.jpeg');
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    height: 500px;
+    opacity: 2;
+	filter: alpha(opacity=50);
+}
+
+header h1 {
+    text-align: center;
+    margin-top: 150px;
 }
 
 .navbar1 {
@@ -102,9 +113,6 @@ header {
     border-radius: 30px;
 }
 
-.nabar2 {
-    backgoround
-}
 
 .navbar2 ul li {
     display: inline-block;
@@ -118,7 +126,7 @@ navbar2 ul li a {
     display: block;
     padding: 10px 50px;
     text-decoration: none;
-    color: #333;
+    color: black;
     transition: background-color 0.3s;
 }
 
