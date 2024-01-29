@@ -8,54 +8,70 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>DB Event</title>
+
     <link rel="stylesheet" href="{% static 'events/images/styless.css' %}">
+
+
 </head>
 
-     <header class="Logo">
-            <img class="headContainer-part" alt="Logo" src="{% static 'events/images/logo.jpg' %}">
-            <a href="{% url 'index' %}"  class="headContainer-center"><h1>DB Event</h1></a>
-        </header>
+<header class="Logo">
+    <img class="headContainer-part" alt="Logo" src="{% static 'events/images/logo.jpg' %}">
+    <a href="{% url 'index' %}" class="headContainer-center"><h1>DB Event</h1></a>
+</header>
 
- <header>
+<header>
 
-             <div class="menu1" id="menu1">
-                 <form action= "{% url 'search' %}" method="post">
-                      {% csrf_token %}
-                     <input type="text" name="search" id="">
-                     
-                 </form>
+    <div class="Search">
 
-                {% if request.user.is_authenticated %}
-                Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}></a>
-                  <button>  <a href="{% url 'logout' %}">Logout</a></button>
-                {% else %}
-                <button><a href="{% url 'login' %}">Login </a></button>
-                <button><a href="{% url 'user_signup' %}">Chcete koupit ticket?</a></button>
-                    <button> <a href="{% url 'organizer_signup' %}">Chcete založit event? </a></button>
+        <form action="{% url 'search' %}" method="post">
+            {% csrf_token %}
+            <label for=""> Vyhledat: </label>
+            <input type="text" name="search" id="">
 
-                {% endif %}
-             </div>
+            <div>
+             <input type="submit" value="Potvrdit" accesskey="s" />
+            </div>
 
-     <div class="menu2" id="menu2"  >
-                <button><a href="{% url 'index' %}">Domov</a></button>
-                <button><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></button>
-                <button><a href="{% url 'event_category' 'Festival' %}">Festival</a></button>
-                <button><a href="{% url 'event_category' 'Sport' %}">Sport</a></button>
-                <button><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></button>
-                <button><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></button>
-                         {% if request.user.organizer or request.user.is_superuser %}
-                <button><a href="{% url 'event_create' %}">Pridat event</a> </button>
-                         {% endif %}
-     </div>
-    </header>
+        </form>
 
-    {% block content %}
-    {% endblock %}
+    </div>
+
+    <div class="menu1" id="menu1">
 
 
-    <footer>Copyright Created by Pavla Růžičková, Zoltán</footer>
-    <script src="{% static 'viewer/script.js' %} "></script>
-    <body>
-    </body>
+        {% if request.user.is_authenticated %}
+        Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}></a>
+        <button><a href="{% url 'logout' %}">Logout</a></button>
+        {% else %}
+        <button><a href="{% url 'login' %}">Login </a></button>
+        <button><a href="{% url 'user_signup' %}">Chcete koupit ticket?</a></button>
+        <button><a href="{% url 'organizer_signup' %}">Chcete založit event? </a></button>
+
+        {% endif %}
+    </div>
+
+    <div class="menu2" id="menu2">
+        <button><a href="{% url 'index' %}">Domov</a></button>
+        <button><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></button>
+        <button><a href="{% url 'event_category' 'Festival' %}">Festival</a></button>
+        <button><a href="{% url 'event_category' 'Sport' %}">Sport</a></button>
+        <button><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></button>
+        <button><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></button>
+        {% if request.user.organizer or request.user.is_superuser %}
+        <button><a href="{% url 'event_create' %}">Pridat event</a></button>
+        {% endif %}
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+
+<footer>Copyright Created by Pavla Růžičková, Zoltán</footer>
+<script src="{% static 'viewer/script.js' %} "></script>
+<body>
+
+
+</body>
 
 </html>
