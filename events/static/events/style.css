@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Leckerli+One&family=Montserrat:wght@300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -7,17 +9,11 @@
 
 body {
     height: 100vh;
-    background: #be7547;
+    /*background: #be7547; */
     margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
-
-
-footer {
-  margin-top: auto;
-}
-
 
 
 li {
@@ -30,14 +26,14 @@ a {
     font-size: 1rem;
 }
 
-a:hover {
+header a:hover {
     color: orange;
 }
 
 
 /* HEADER */
 header {
-    position: sticky;
+
     top: 0px;
     padding: 0 2rem;
     background-image: url('images/event-bg.jpeg');
@@ -51,7 +47,8 @@ header {
 
 header h1 {
     text-align: center;
-    margin-top: 150px;
+    margin-top: 50px;
+    margin-bottom: 150px;
 }
 
 .navbar1 {
@@ -80,9 +77,6 @@ header h1 {
     display: flex;
     gap: 2.5rem;
 }
-
-
-
 
 .navbar1 .toggle_btn {
     color: #fff;
@@ -135,7 +129,52 @@ navbar2 ul li a:hover {
 }
 
 
+/* body  */
+
+.container {
+    background: linear-gradient(#ac6b45, #ffd9aa);
+    padding: 15px 9%;
+    min-height: 100vh;
+}
+
+.container .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 55px;
+    padding: 50px;
+}
+
+
+.container .box-container .box {
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    border-radius: 5px;
+    text-align: center;
+    padding: 30px 20px;
+    width: 350px;
+    height: 500px;
+    outline: 1px solid #000;
+}
+
+.container .box-container a {
+    cursor: pointer;
+}
+
+.container .box-container .box:hover {
+    outline: 2px solid #FFF;
+}
+
+.container .box-container .box img {
+    height: 250px;
+}
+
+
+
+
+
 
 footer {
     text-align: center;
+    margin-top: auto;
+    background: #ac6b45;
+    padding: 30px 20px;
 }

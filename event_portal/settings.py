@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
     'events',
     'accounts',
     'django_dump_load_utf8',
     'templatetags.filter',
+    'django_extensions',
+
 ]
 
 MIDDLEWARE = [
@@ -141,3 +144,8 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
 URL = 'index'
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'graph_models': True,
+}

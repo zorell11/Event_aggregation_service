@@ -14,26 +14,16 @@ from django.urls import reverse
 
 # Create your views here.
 
-
-# from django import template
-# register = template.Library()
-# @register.filter
-# def multiply(value, arg):
-#     return value * arg
-
 def index(request):
     events = Event.objects.all()
+    event_dates = EventDate.objects.all()
     content = {'events': events }
     return render(request, 'events/index.html', content)
 
 
 def event_detail(request, pk):
-    #available_tickets = available_ticket(request)
-    #print(available_tickets)
     event = Event.objects.get(id=pk)
     event_dates = EventDate.objects.filter(event_id=pk)
-    # event = Event.objects.get(id=pk).event_name
-    # event = Event.objects.filter(event_name=event)
     event_date_free_tickets = {}
     for event_date in event_dates:
         tickets_sold = SigningUp.objects.filter(event_id=pk, event_date=event_date.id).aggregate(Sum('ticket_count'))['ticket_count__sum']
@@ -42,7 +32,6 @@ def event_detail(request, pk):
     comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
     content = {'event': event, 'event_dates': event_dates, 'comments': comments, 'event_date_free_tickets': event_date_free_tickets}
     return render(request, 'events/event_detail.html', content)
-    #return render(request, 'events/test.html', content)
 
 
 def event_category(request, name):
@@ -94,18 +83,10 @@ def add_num_ticket(request):
         event_date_id = int(request.POST.get('event_date'))
         event = Event.objects.get(id=event_id)
         event_date = EventDate.objects.get(id=event_date_id)
-        #tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id).aggregate(Sum('ticket_count'))['ticket_count__sum']
-        # print(tickets_sold)
-        # print(100*'#')
-        # if tickets_sold == None:
-        #     tickets_sold = 0
-        #available_tickets = event.capacity - tickets_sold
         available_tickets = available_ticket(request)
         content = {'event': event, 'event_date':event_date,'available_tickets': available_tickets}
         return render(request, 'events/choose_tickets.html', content)
 
-
-from django.core.exceptions import ObjectDoesNotExist
 @login_required
 def shopping_cart(request):
     user = request.user
