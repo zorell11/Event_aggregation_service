@@ -2,8 +2,8 @@
     <form action="{% url 'search' %}" method="post">
         {% csrf_token %}
         <label for=""> Vyhledat: </label>
-        <input type="text" name="search" id="">
-        <input type="submit" value="Potvrdit" accesskey="s" />
+        <input type="text" name="search" class="search">
+        <input type="submit" value="Hladat" accesskey="s" />
     </form>
     {% if request.user.is_authenticated %}
         <ul class="links">

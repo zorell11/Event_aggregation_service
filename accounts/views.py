@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 
-from events.models import Event
+from events.models import Event, SigningUp
 from .forms import UserSignUpForm, OrganizerSignUpForm
 
 from .models import Organizer
@@ -32,6 +32,8 @@ class OrganizerSignUpForm(CreateView):
 def user_profile(request):
     #user = Organizer.objects.get(id=request.user.id)
     events = Event.objects.filter(organizer_id=request.user)
-    content ={'events': events}
+    tickets = SigningUp.objects.filter(user_id=request.user)
+
+    content ={'events': events, 'tickets':tickets}
     return render(request, 'user_profile.html', content)
 

@@ -4,13 +4,22 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tit</title>
-</head>
-<body>
-<h1>Vyhledávání</h1>
-</body>
-</html>
+<h1>Vysledok vyhladávania</h1>
+
+<div class="box-container">
+        {% for event in events %}
+        <a href="{% url 'event_detail' event.id %}">
+            <div class="box">
+
+                    <img src="{{ event.event_image.url }}" alt="">
+                    <h3>{{ event.event_name }}</h3>
+                    <p>{{ event.description |truncatechars:50 }}</p>
+
+            </div>
+        </a>
+
+        {% empty %}
+        <p>Nenasiel sa ziaden event ktory by v nazve obsahoval {{ searched_word }}</p>
+        {% endfor  %}
+</div>
+{% endblock content %}

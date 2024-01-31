@@ -31,8 +31,6 @@ class Event(models.Model):
     event_video = models.CharField(max_length=128, null=True, blank=True)
     ticket_price = models.FloatField(null=False, blank=False)
 
-
-
     def __str__(self):
         #return f'{self.event_name} - {self.date_from}'
         #return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
@@ -40,10 +38,12 @@ class Event(models.Model):
 
 
 class EventDate(models.Model):
-    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True, blank=False)
+    event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, null=True, blank=False, related_name="event_date")
     date_from = models.DateTimeField(blank=False, null=False)
     date_to = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.event_id}'
 
     def get_time_from(self):
             mins = '{:02}'.format(self.date_from.minute)
@@ -77,3 +77,7 @@ class SigningUp(models.Model):
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False)
     status = models.CharField(max_length=1, choices=PAYMENT_STATUS, null=True)
+
+
+    def __str__(self):
+        return f'{self.event_id}'

@@ -17,7 +17,7 @@ from django.urls import reverse
 def index(request):
     events = Event.objects.all()
     event_dates = EventDate.objects.all()
-    content = {'events': events }
+    content = {'events': events, "event_dates":  event_dates}
     return render(request, 'events/index.html', content)
 
 
@@ -55,7 +55,11 @@ def add_comment(request):
     return redirect(f'/event/{event_id}')
 
 def search(request):
-    content = {}
+    searched_word = request.POST.get('search')
+    searched_words = searched_word.split(' ')
+    events = Event.objects.filter(event_name__contains=searched_word)
+    print(events)
+    content = {'events': events, 'searched_word': searched_word}
     return render(request, 'events/search.html', content)
 
 

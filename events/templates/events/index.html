@@ -11,6 +11,7 @@
                 <img src="{{ event.event_image.url }}" alt="">
                 <h3>{{ event.event_name }}</h3>
                 <p>{{ event.description |truncatechars:50 }}</p>
+                <p>{{event.event_date.first.get_time_from}} - {{event.event_date.first.get_time_to}}</p>
 
         </div>
             </a>

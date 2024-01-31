@@ -10,4 +10,11 @@
     {% endfor %}
 </ul>
 
+<h3>Moje zakupene listky:</h3>
+<ul>
+    {% for ticket in tickets %}
+        <li><a href="{% url 'event_detail' ticket.event_id  %}">{{ticket}}</a></li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
