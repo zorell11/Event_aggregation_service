@@ -90,6 +90,7 @@ def add_num_ticket(request):
         available_tickets = available_ticket(request)
         content = {'event': event, 'event_date':event_date,'available_tickets': available_tickets}
         return render(request, 'events/choose_tickets.html', content)
+    print('GET request ')
 
 @login_required
 def shopping_cart(request):

@@ -11,40 +11,7 @@
     </head>
     <body>
         <header>
-            <div class="navbar1">
-    <form action="{% url 'search' %}" method="post">
-        {% csrf_token %}
-        <label for=""> Vyhledat: </label>
-        <input type="text" name="search" id="">
-        <input type="submit" value="Potvrdit" accesskey="s" />
-    </form>
-    {% if request.user.is_authenticated %}
-        <ul class="links">
-            <li>Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-    {% else %}
-            <li><a href="{% url 'login' %}">Login </a></li>
-            <li><a href="{% url 'user_signup' %}">Chcete koupit ticket?</a></li>
-            <li><a href="{% url 'organizer_signup' %}">Chcete založit event? </a></li>
-        </ul>
-    {% endif %}
-</div>
-
-<div class="navbar2">
-    <ul>
-        <li><a href="{% url 'index' %}">Domov</a></li>
-        <li><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></li>
-        <li><a href="{% url 'event_category' 'Festival' %}">Festival</a></li>
-        <li><a href="{% url 'event_category' 'Sport' %}">Sport</a></li>
-        <li><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></li>
-        <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></li>
-        {% if request.user.organizer or request.user.is_superuser %}
-        <li><a href="{% url 'event_create' %}">Pridat event</a></li>
-        {% endif %}
-    </ul>
-</div>
-
-<h1>EventDB - najlepsie eventy u nas</h1>
+            {% include "nav.html" %}
 
         </header>
 
