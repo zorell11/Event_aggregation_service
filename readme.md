@@ -30,10 +30,10 @@
 ## Stručný popis systému
 Součástí tohoto projektu je vytvoření webové stránky, která organizátorům akcí umožní přidávat akce a vybírat na ně vstupné. Přihlásit se může jakýkoliv registrovaný uživatel. Web by měl mít také vyhledávač událostí (s několika kritérii) a API, které umožní prezentaci na jiných stránkách / službách
 ## Hlavní funkce systému
-- [ ] Registrace a přihlašování uživatele.
+- [x] Registrace a přihlašování uživatele.
 - [ ] Vytváření a úprava událostí organizátorem (uživatel se speciální rolí).
-- [ ] Komentování událostí přihlášenými uživateli.
-- [ ] Přihlašování na akce.
+- [x] Komentování událostí přihlášenými uživateli.
+- [x] Přihlašování na akce.
 - [ ] Vyhledávač událostí.
 - [ ] API pro ostatní webové stránky / služby, kde budou akce prezentovány.
 ## Obecné pokyny
@@ -47,13 +47,13 @@ vytvoření souborů s definovaným stylem / scriptem (bootstrap + případný v
 stránka by měla mít název a v horní části by měla obsahovat tlačítko pro přihlašování a registraci
 ## Registrace uživatele 
 - [ ] registrační formulář by měl obsahovat:
-  - [ ] přihlašovací údaje (email) – s kontrolou správnosti emailu,
-  - [ ] heslo - musí sestávat nejméně z 8 znaků (ne však z více než 30 znaků),
-  - [ ]  zobrazované jméno – toto pole nemůže zůstat prázdné nebo obsahovat pouze mezery, maximální délka je 50 znaků.
+  - [x] přihlašovací údaje (email) – s kontrolou správnosti emailu,
+  - [x] heslo - musí sestávat nejméně z 8 znaků (ne však z více než 30 znaků),
+  - []  zobrazované jméno – toto pole nemůže zůstat prázdné nebo obsahovat pouze mezery, maximální délka je 50 znaků.
   - [X]  email použitý k registraci může být použit pouze jednou.
   - [X]  uživatel by měl mít přiřazené systémové role, které budou pokrývat alespoň dva případy: organizátor a běžný uživatel. 
   - [X] Každá registrovaná osoba automaticky získává roli „standardního uživatele“.
-  - [ ]  heslo je uloženo v databázi ve formě, která zabraňuje jeho záměrnému prolomení / obnovení
+  - [x]  heslo je uloženo v databázi ve formě, která zabraňuje jeho záměrnému prolomení / obnovení
 ## Přihlášení uživatele
 - [ ] přihlašovací formulář obsahuje přihlašovací jméno a heslo.
 - [X] přihlašování pomocí django.contrib.auth (pro vytvoření příslušné konfigurace).
