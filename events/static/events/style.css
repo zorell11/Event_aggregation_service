@@ -108,6 +108,12 @@ header h1 {
 }
 
 
+.navbar2 {
+    border-top: 2px solid black;
+    padding-top:5px;
+    text-align: center;
+}
+
 .navbar2 ul li {
     display: inline-block;
     position: relative;
@@ -169,13 +175,15 @@ navbar2 ul li a:hover {
 
 /* form  */
 
-label {
+.register-form label,
+.login-form label {
     float:left;
     clear:both;
     color:#333;
     margin-bottom:4px;
 }
-input, textarea {
+.register-form input, textarea,
+.login-form input, textarea {
     clear:both;
     float:left;
     margin:0 0 10px;
@@ -183,8 +191,10 @@ input, textarea {
     border:0;
     padding:6px 10px;
     font-size:12px;
+    width: 300px;
 }
-input[type=submit] {
+.register-form input[type=submit],
+.login-form input[type=submit] {
     font-weight:bold;
     background:#00abff;
     color:#fff;
@@ -192,13 +202,18 @@ input[type=submit] {
     font-size:14px;
     text-transform:uppercase;
 }
-.errorlist {
+.register-form .errorlist,
+.login-form .errorlist {
     color:#cc0033;
     float:left;
     clear:both;
     padding-left:10px;
 }
 
+
+.register-form .helptext {
+    display:none;
+}
 
 
 

@@ -35,8 +35,14 @@ def event_detail(request, pk):
 
 
 def event_category(request, name):
-    category = Category.objects.get(name=name)
+    try:
+        category = Category.objects.get(name=name)
+    except Category.DoesNotExist:
+        category = None
+        print('No category in database')
+
     events = Event.objects.filter(category=category)
+
     content = {'events': events, 'category': category}
     return render(request, 'events/index.html', content)
 

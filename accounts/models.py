@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
 
 class Organizer(CustomUser):
     organzier = models.BooleanField(default=True)
-    company_name = models.TextField(null=False, blank=False)
+    company_name = models.CharField(max_length=64, null=False, blank=False)
     bank_accunt = models.CharField(max_length=32, null=False, blank=False)
     company_ico = models.CharField(max_length=32, null=True, blank=True)
 
