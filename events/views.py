@@ -14,9 +14,19 @@ from .forms import EventForm, AddEventCopyForm, EditEventForm, UpdateEventDate
 from django.urls import reverse
 
 
-from datetime import datetime, date
+from datetime import datetime, date, timezone, timedelta
 
 # Create your views here.
+
+
+def check_not_paid_tickets():
+    tickets = SigningUp.objects.filter(status='N')
+    actual_time = datetime.now().replace(tzinfo=timezone.utc)
+    for ticket in tickets:
+        pay_time = ticket.signing_up_date + timedelta(minutes=15)
+        if pay_time < actual_time:
+            ticket.delete()
+
 
 def index(request):
     data = {}
@@ -32,7 +42,9 @@ def index(request):
     return render(request, 'events/index.html', content)
 
 
+
 def event_detail(request, pk):
+    check_not_paid_tickets()
     event = Event.objects.get(id=pk)
     event_dates = EventDate.objects.filter(event_id=pk, date_to__gte=datetime.now().date()).order_by('date_from')
     event_date_free_tickets = {}
@@ -168,6 +180,7 @@ def add_num_ticket(request):
 
 @login_required
 def shopping_cart(request):
+    check_not_paid_tickets()
     user = request.user
     if request.method == 'POST':
         print(request.POST)

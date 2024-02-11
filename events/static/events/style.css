@@ -26,7 +26,7 @@ a {
     font-size: 1rem;
 }
 
-header a:hover {
+a:hover {
     color: orange;
 }
 
