@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+<h1>Update date</h1>
+<form action="{% url 'update_event_date' event_date.id %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="event_id" value="{{event_date.event_id.id}}">
+    {{form.date_from}}
+    {{form.date_to}}
+    <input type="submit" value="Ulozit">
+</form>
+
+{% endblock %}

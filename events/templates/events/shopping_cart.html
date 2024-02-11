@@ -4,17 +4,13 @@
 
 {% block content %}
 
-<h2>Košík</h2>
-{% for value in range %}
-    {{ value }}
-{% endfor %}
-
 {% if orders %}
+    <h2>Nákupný košík</h2>
     <ul>
     {% for order in orders %}
         <div>
             <h3>{{ order.event_id.event_name }}</h3>
-            <div><a href="">Odobrat</a></div>
+            <div><a href="{% url 'remove_all_tickets' order.id %}">Odobrať všetkz lístky</a></div>
             <span>{{order.event_date.date_from}}</span>
              <span>{{order.event_id.place}}, {{order.event_id.address}}</span>
             <div>
@@ -37,7 +33,7 @@
                 <td>{{forloop.counter}}</td>
                 <td>-</td>
                 <td>{{order.event_id.ticket_price}} €</td>
-                <td><a href="">Odobrat</a></td>
+                <td><a href="{% url 'remove_ticket' order.id %}">Odobrat</a></td>
               </tr>
               {% endfor %}
 
@@ -49,6 +45,7 @@
                 <input type="hidden" name="event_date" value="{{order.event_date.id}}">
                 <input type="submit" value="Pridat listok">
             </form>
+            <div style="clear:both;"></div>
         </div>
     </ul>
     {% endfor %}
@@ -108,9 +105,10 @@
         <input type="hidden" name="" value="">
         <input type="submit" name="" value="Zaplatiť {{full_price}} € Objednávka s povinnosťou platby">
     </form>
+    <div style="clear:both;"></div>
 
 {% else %}
-    <h2>Kosik je prazdny</h2>
+    <h2>Váš nákupný košík je prázdný :(</h2>
 {% endif %}
 
 {% endblock%}

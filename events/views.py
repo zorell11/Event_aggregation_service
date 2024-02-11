@@ -5,25 +5,36 @@ from django.shortcuts import render, redirect
 from django.views.generic import FormView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 from .models import Event, Category, Comment, Organizer, EventDate, SigningUp
 
-from .forms import EventForm, AddEventCopyForm
+from .forms import EventForm, AddEventCopyForm, EditEventForm, UpdateEventDate
 
 from django.urls import reverse
+
+
+from datetime import datetime, date
 
 # Create your views here.
 
 def index(request):
-    events = Event.objects.all()
-    event_dates = EventDate.objects.all()
-    content = {'events': events, "event_dates":  event_dates}
+    data = {}
+    event_dates = EventDate.objects.filter(date_to__gt=datetime.now()).order_by('date_from')
+    for date in event_dates:
+        if date.event_id.id not in data:
+            data[date.event_id.id] = date
+    content = {'data': data}
+
+    # events = Event.objects.all()
+    # event_dates = EventDate.objects.all()
+    # content = {'events': events, "event_dates":  event_dates, 'data': data}
     return render(request, 'events/index.html', content)
 
 
 def event_detail(request, pk):
     event = Event.objects.get(id=pk)
-    event_dates = EventDate.objects.filter(event_id=pk)
+    event_dates = EventDate.objects.filter(event_id=pk, date_to__gte=datetime.now().date()).order_by('date_from')
     event_date_free_tickets = {}
     for event_date in event_dates:
         tickets_sold = SigningUp.objects.filter(event_id=pk, event_date=event_date.id).aggregate(Sum('ticket_count'))['ticket_count__sum']
@@ -62,14 +73,74 @@ def add_comment(request):
 
 def search(request):
     searched_word = request.POST.get('search')
-    searched_words = searched_word.split(' ')
+    if searched_word == None:
+        searched_word = ""
+    #searched_words = searched_word.split(' ')
+    found_events = []
     events = Event.objects.filter(event_name__contains=searched_word)
-    print(events)
-    content = {'events': events, 'searched_word': searched_word}
+    for event in events:
+        event_date = event.event_date.filter(date_to__gt=datetime.now()).order_by('date_from')
+        if event_date:
+            found_events.append(event)
+    content = {'events': found_events, 'searched_word': searched_word}
     return render(request, 'events/search.html', content)
 
 
-from django.db.models import Sum
+def advanced_search(request):
+    searched_word = request.POST.get('search')
+    if searched_word == None:
+        searched_word = ""
+
+    searched_date = request.POST.get('date')
+    print(searched_date)
+
+    year = datetime.now().year
+    month = datetime.now().month
+    day = datetime.now().day
+
+    found_events = []
+    events = Event.objects.filter(event_name__contains=searched_word)
+    if searched_date == 'today':
+        for event in events:
+            found_event = event.event_date.filter(date_from__day=day, date_from__month=month, date_from__year=year)
+            print(found_event)
+            if found_event:
+                found_events.append(event)
+
+    elif searched_date == 'this_week':
+        current_week = date.today().isocalendar().week
+        for event in events:
+            #found_event = EventDate.objects.filter(date_from__week=current_week)
+            found_event = event.event_date.filter(date_from__week=current_week, date_to__gt=datetime.now()).order_by('date_from')
+
+            if found_event:
+                found_events.append(event)
+        print(found_events)
+
+
+    elif searched_date == 'this_month':
+        for event in events:
+            found_event = event.event_date.filter(date_from__month=month, date_from__year=year)
+            print(found_event)
+            if found_event:
+                found_events.append(event)
+
+    elif searched_date == 'next_month':
+        for event in events:
+            found_event = event.event_date.filter(date_from__month=month+1, date_from__year=year)
+            print(found_event)
+            if found_event:
+                found_events.append(event)
+
+    else:
+        for event in events:
+            event_date = event.event_date.filter(date_to__gt=datetime.now()).order_by('date_from')
+            if event_date:
+                found_events.append(event)
+
+    print(found_events)
+    content = {'events': found_events, 'searched_word': searched_word}
+    return render(request, 'events/search.html', content)
 
 
 def available_ticket(request):
@@ -77,8 +148,6 @@ def available_ticket(request):
     event_date_id = int(request.POST.get('event_date'))
     event = Event.objects.get(id=event_id)
     tickets_sold = SigningUp.objects.filter(event_id=event_id, event_date=event_date_id).aggregate(Sum('ticket_count'))['ticket_count__sum']
-    print(tickets_sold)
-    print(100*'#')
     if tickets_sold == None:
         tickets_sold = 0
     return event.capacity - tickets_sold
@@ -96,17 +165,11 @@ def add_num_ticket(request):
         available_tickets = available_ticket(request)
         content = {'event': event, 'event_date':event_date,'available_tickets': available_tickets}
         return render(request, 'events/choose_tickets.html', content)
-    print('GET request ')
 
 @login_required
 def shopping_cart(request):
     user = request.user
-    print(type(user))
-    print(request)
-    print(request.session)
-    print(50*'##')
     if request.method == 'POST':
-
         print(request.POST)
         event_id = int(request.POST.get('event_id'))
         event_date_id = int(request.POST.get('event_date'))
@@ -181,8 +244,6 @@ class PersonCreateView(FormView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-
-        print(self.pk)
         return reverse('event_detail', kwargs={'pk': self.pk})
 
 class AddEventCopyView(FormView):
@@ -200,10 +261,10 @@ class AddEventCopyView(FormView):
             date_from = cleaned_data['date_from'],
             date_to = cleaned_data['date_to']
         )
-
         return result
 
 
+@login_required
 def order_success(request):
     user = request.user
     orders = SigningUp.objects.filter(user_id=user,status='N')
@@ -212,3 +273,69 @@ def order_success(request):
         order.save()
     if request.method == 'POST':
         return render(request, 'events/order_success.html')
+
+
+@login_required
+def remove_single_ticket(request, pk):
+    signingup = SigningUp.objects.get(id=pk)
+    new_ticket_count = signingup.ticket_count -1
+    if new_ticket_count:
+        signingup.ticket_count = new_ticket_count
+        signingup.save()
+    else:
+        signingup.delete()
+    return redirect('shopping_cart')
+
+@login_required
+def remove_all_tickets(request, pk):
+    signingup = SigningUp.objects.get(id=pk)
+    signingup.delete()
+    return redirect('shopping_cart')
+
+
+@login_required
+def update_event(request, pk):
+    event = Event.objects.get(id=pk)
+    print(request.POST)
+    if request.method == 'POST':
+        form = EditEventForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            event.event_name = cleaned_data['event_name']
+            event.place = cleaned_data['place']
+            event.address = cleaned_data['address']
+            event.category = cleaned_data['category']
+            event.capacity = cleaned_data['capacity']
+            event.ticket_price = cleaned_data['ticket_price']
+            event.event_video = cleaned_data['event_video']
+            event.event_video = cleaned_data['event_video']
+
+            event.save()
+            return redirect('event_detail', pk=pk)
+
+
+    event = Event.objects.get(id=pk)
+    form = EditEventForm(instance=event)
+    content = {'form': form, 'event': event}
+    return render(request, 'events/update_event.html', content)
+
+
+@login_required
+def update_event_date(request, pk):
+    pk = int(pk)
+    event_date = EventDate.objects.get(id=pk)
+    if request.method == 'POST':
+        form = UpdateEventDate(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            event_date.date_from = cleaned_data['date_from']
+            event_date.date_to = cleaned_data['date_to']
+            event_date.save()
+            return redirect('event_detail', pk=event_date.event_id.id)
+        else:
+            print('invalid')
+    else:
+        event_date = EventDate.objects.get(id=pk)
+        form = UpdateEventDate(instance=event_date)
+    content = {'form': form, 'event_date': event_date}
+    return render(request, 'events/update_event_date.html', content)

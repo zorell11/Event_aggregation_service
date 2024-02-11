@@ -3,38 +3,58 @@
 
 {% block content %}
 
+{% if request.user.email == event.organizer_id.email or request.user.is_superuser %}
+<div class="update">
+    <a href="{% url 'update_event' event.id %}"><input type="submit" value="Upravit udaje udalost"></a>
+
+</div>
+<div style="clear:both;"></div>
+{% endif %}
+
 <h1>{{ event.event_name }}</h1>
 <img src="{{ event.event_image.url }}" width="300px">
 
 <div>
-    <p>Datum:</p>
-    {% for event_date in event_dates %}
-      <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b></p>
-    {% endfor %}
-
-    {% if request.user.email == event.organizer_id.email  %}
-        <a href="{% url 'add_event_copy' event.id %}">Pridat event s inym datumom</a>
-    {% endif %}
+<!--    <p>Datum:</p>-->
+<!--    {% for event_date in event_dates %}-->
+<!--      <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b></p>-->
+<!--    {% endfor %}-->
+    
 </div>
 <p>Miesto: {{ event.place }}</p>
 <p>Adreesa: {{ event.address }}</p>
+<div class="update">
+ {% if request.user.email == event.organizer_id.email or request.user.is_superuser %}
+        <a href="{% url 'add_event_copy' event.id %}"><input type="submit" value="Pridat event s inym datumom"></a>
+{% endif %}
+</div>
+<div style="clear:both;"></div>
+
 <h2>Vstupekny</h2>
  {% for event_date in event_dates %}
     <p>
     <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b>
+    <div class="update">
+        {% if request.user.email == event.organizer_id.email or request.user.is_superuser %}
+                <a href="{% url 'update_event_date' event_date.id %}"><input type="submit" value="Zmenit datum"></a>
+        {% endif %}
+    </div>
+    <div style="clear:both;"></div>
     {% for key,value in event_date_free_tickets.items %}
         {% if key == event_date.id %}
             {% if not value %}
-                <p>Listky su vypredane!</p>
-
-
+                <input type="submit" value="Listky su vypredane!">
+                <div style="clear:both;"></div>
             {% else %}
+                    {% if request.user.is_authenticated or request.user.is_superuser %}
                 <form action="{% url 'add_num_ticket' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value="{{event.id}}">
                     <input type="hidden" name="event_date" value="{{event_date.id}}">
-                    <input type="submit" value="Koupit vstupenku">
+                    <input type="submit" value="Kúpiť vstupenku">
                 </form>
+                    {% endif %}
+                <div style="clear:both;"></div>
             {% endif %}
         {% endif %}
     {% endfor %}
@@ -44,11 +64,10 @@
 <br>
 <h2>POPIS PODUJATIA</h2>
 <p>{{ event.description }} </p>
-<h2>Galeria</h2>
 <h2>Komentare</h2>
 
     {% for comment in comments %}
-        <div>
+        <div class="comments">
             <p>{{ comment.comment }}</p>
             <h6>{{ comment.user_id.get_username }} - {{ comment.comment_date }}</h6>
         </div>
@@ -59,11 +78,12 @@
 <form action="{% url 'add_comment' %}" method="post">
     {% csrf_token %}
     <div>
-        <textarea name="comment" id="" cols="30" rows="10"></textarea>
+        <textarea name="comment" id="" cols="30" rows="10" maxlength="500"></textarea>
     </div>
     <input type="hidden" name="event_id" value="{{event.id}}">
     <input type="submit" value="Pridat komentar">
 </form>
+<div style="clear:both;"></div>
 {% endif %}
 
 {% endblock%}

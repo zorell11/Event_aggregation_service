@@ -49,39 +49,39 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
 - [ ] registrační formulář by měl obsahovat:
   - [x] přihlašovací údaje (email) – s kontrolou správnosti emailu,
   - [x] heslo - musí sestávat nejméně z 8 znaků (ne však z více než 30 znaků),
-  - []  zobrazované jméno – toto pole nemůže zůstat prázdné nebo obsahovat pouze mezery, maximální délka je 50 znaků.
+  - [x]  zobrazované jméno – toto pole nemůže zůstat prázdné nebo obsahovat pouze mezery, maximální délka je 50 znaků.
   - [X]  email použitý k registraci může být použit pouze jednou.
   - [X]  uživatel by měl mít přiřazené systémové role, které budou pokrývat alespoň dva případy: organizátor a běžný uživatel. 
   - [X] Každá registrovaná osoba automaticky získává roli „standardního uživatele“.
   - [x]  heslo je uloženo v databázi ve formě, která zabraňuje jeho záměrnému prolomení / obnovení
 ## Přihlášení uživatele
-- [ ] přihlašovací formulář obsahuje přihlašovací jméno a heslo.
+- [x] přihlašovací formulář obsahuje přihlašovací <s>jméno</s> email a heslo.
 - [X] přihlašování pomocí django.contrib.auth (pro vytvoření příslušné konfigurace).
 - [X] po úspěšném přihlášení by měl být uživatel přesměrován na domovskou stránku, kde se místo tlačítek Přihlášení / Zaregistrovat se zobrazí informace: "Přihlášen jako: email
 ## Přidání nové události
 ### Událost musí obsahovat minimálně následující body:
-- [ ] název – pole nemůže zůstat prázdné nebo obsahovat pouze mezery,
+- [x] název – pole nemůže zůstat prázdné nebo obsahovat pouze mezery,
 - [X] datum od/do – povinné (volitelné zaškrtnutí, zda jde o budoucí datum),
-- [ ] popis – minimálně 20 znaků.
-- [ ] událost musí být spojena s uživatelem, který ji přidal
+- [x] popis – minimálně 20 znaků.
+- [x] událost musí být spojena s uživatelem, který ji přidal
 ## Seznam událostí
-- [ ] na úvodní stránce v centrální části by měl být umístěn seznam všech aktuálních akcí
+- [x] na úvodní stránce v centrální části by měl být umístěn seznam všech aktuálních akcí
 - [ ] každý prvek seznamu by měl obsahovat:
-  - [ ] zvýrazněný titulek s názvem události,
-  - [ ] datum akce od/do,
-  - [ ] prvních 50 znaků popisu.
+  - [x] zvýrazněný titulek s názvem události,
+  - [x] datum akce od/do,
+  - [x] prvních 50 znaků popisu.
 - [ ] události by měly být seřazeny od těch, které se budou konat nejdříve.
 ## Vyhledávač událostí
 #### V horní části domovské stránky by měl být formulář, který bude obsahovat:
-  - [ ] textové pole pro zadání fráze,
+  - [x] textové pole pro zadání fráze,
   - [ ] volitelné (rozbalovací seznam): 
     - [ ] budoucí, 
     - [ ] probíhající 
     - [ ] budoucí, 
     - [ ] vše,
     - [ ] tlačítko "hledat".
-  - [ ] zadaná fráze se má hledat v názvu.
-  - [ ] výsledky vyhledávání by měly být na samostatné stránce ve stejném rozložení jako na domovské stránce.
+  - [x] zadaná fráze se má hledat v názvu.
+  - [x] výsledky vyhledávání by měly být na samostatné stránce ve stejném rozložení jako na domovské stránce.
   - [ ] stránka s výsledky vyhledávání by také měla obsahovat vyhledávací formulář jako na domovské stránce a jeho pole by měla být nastavena podle aktuálně zvolených kritérií.
 ## Detail zobrazení události
 #### Samostatná stránka, na které budou viditelné všechny podrobnosti události: 
@@ -90,10 +90,10 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
 - [ ] úplný popis.
 - [ ] název je propojen na domovské stránce a na stránce s výsledky vyhledávání, takže po kliknutí je uživatel přesměrován na stránku konkrétní události.
 ## Přidávání komentářů k události
-- [ ] pod obecnými informacemi o události přidejte formulář pro vložení komentáře.
-- [ ] komentář může mít až 500 znaků.
-- [ ] pouze přihlášený uživatel může přidat komentář.
-- [ ] komentáře by měly být seřazeny od těch nejnovějších.
+- [x] pod obecnými informacemi o události přidejte formulář pro vložení komentáře.
+- [x] komentář může mít až 500 znaků.
+- [x] pouze přihlášený uživatel může přidat komentář.
+- [x] komentáře by měly být seřazeny od těch nejnovějších.
 ## Přihlašování na událost
 - [ ] na stránce události by měla být přidána možnost (tlačítko) přihlásit se k odběru, pouze však pro přihlášené uživatele.
 - [ ] pokud je aktuální uživatel již zaregistrován, místo tlačítka uvidí příslušné informace a volitelně tlačítko pro odhlášení z události.
@@ -107,9 +107,9 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
 - [ ] volitelné: přidání možnosti filtrování událostí v aplikaci podle zvoleného časového období pomocí filtrování na straně API
 ## Další úkoly a rozšíření:
 ### Možnost přidat obrázek k události
-- [ ] umožnit přidání grafického souboru v sekci přidat / editovat formulář události.
+- [x] umožnit přidání grafického souboru v sekci přidat / editovat formulář události.
 - [ ] uložení nahraného souboru na disk nebo do externího cloudového úložiště přes API nebo skrze vlastní API (pokročilá verze)
-- [ ] poskytnutí souborů pro zobrazení v detailech události (a případně i na jiných místech)
+- [x] poskytnutí souborů pro zobrazení v detailech události (a případně i na jiných místech)
 ### Úprava události
 - [ ] dodatečná stránka, která vám umožní upravit vytvořenou událost.
 - [ ] událost může upravovat pouze vlastník nebo administrátor (nová role pro uživatele).

@@ -5,7 +5,21 @@
 {% block content %}
 
 <h1>Vysledok vyhladávania</h1>
-
+<div>
+        <form action="{% url 'advanced_search' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="search" class="search">
+                <select name="date" id="">
+                        <option value="">Vybrat datum</option>
+                        <option value="today">Dnes</option>
+                        <option value="this_week">Tento tyzden</option>
+                        <option value="this_month">Tento mesiac</option>
+                        <option value="next_month">Dalsi mesiac</option>
+                </select>
+                <input type="submit" value="Hladat" accesskey="s" />
+        </form>
+</div>
+<div style="clear:both;"></div>
 <div class="box-container">
         {% for event in events %}
         <a href="{% url 'event_detail' event.id %}">

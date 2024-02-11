@@ -1,13 +1,13 @@
 <div class="navbar1">
     <form action="{% url 'search' %}" method="post">
         {% csrf_token %}
-        <label for=""> Vyhledat: </label>
+        <label> Vyhladať: </label>
         <input type="text" name="search" class="search">
         <input type="submit" value="Hladat" accesskey="s" />
     </form>
     {% if request.user.is_authenticated %}
         <ul class="links">
-            <li>Prihlaseny ako: <a href="{% url 'profile' %}">{{request.user}}</a></li>
+            <li>Prihlásený ako: <span id='username'><a href="{% url 'profile' %}">{{request.user}}</a></span></li>
             <li><a href="{% url 'logout' %}">Logout</a></li>
     {% else %}
             <li><a href="{% url 'login' %}">Login </a></li>
@@ -27,6 +27,7 @@
         <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></li>
         {% if request.user.organizer or request.user.is_superuser %}
         <li><a href="{% url 'event_create' %}">Pridat event</a></li>
+        <li><a href="{% url 'shopping_cart' %}">Nakupny kosik</a></li>
         {% endif %}
     </ul>
 </div>

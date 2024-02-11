@@ -39,8 +39,11 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     path('shopping_cart/', shopping_cart, name='shopping_cart'),
+    path('shopping_cart/delete_ticket/<pk>/', remove_single_ticket, name='remove_ticket'),
+    path('shopping_cart/delete_tickets/<pk>/', remove_all_tickets, name='remove_all_tickets'),
     path('order_success', order_success, name='order_success'),
     path('search', search, name='search'),
+    path('advances_search', advanced_search, name='advanced_search'),
 
     path('', index, name='index'),
     #path('event/create/', event_image_view, name='event_create'),
@@ -49,7 +52,8 @@ urlpatterns = [
     path('event/new_date/<pk>/', AddEventCopyView.as_view(), name='add_event_copy'),
     path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category'),
-
+    path('event/update/<pk>/', update_event, name='update_event'),
+    path('event/update/date/<int:pk>/', update_event_date, name='update_event_date'),
 
 
     path('event/addcomment', add_comment, name='add_comment')

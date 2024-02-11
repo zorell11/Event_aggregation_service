@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 
 from events.models import Event, SigningUp
 from .forms import UserSignUpForm, OrganizerSignUpForm
+from django.contrib.auth.decorators import login_required
+
 
 from .models import Organizer
 
@@ -28,7 +30,7 @@ class OrganizerSignUpForm(CreateView):
     success_url = reverse_lazy('index')
     template_name = 'organizer_signup.html'
 
-
+@login_required
 def user_profile(request):
     #user = Organizer.objects.get(id=request.user.id)
     events = Event.objects.filter(organizer_id=request.user)

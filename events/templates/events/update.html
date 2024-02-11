@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+<form action="{% url 'update_event' event.id %}" method="post">
+    {% csrf_token %}
+    <label for="">ID Eventu:</label>
+    {{form.id}}
+    <label for="">Meno Eventu:</label>
+    {{form.event_name}}
+    <label for="">Miesto:</label>
+    {{form.place}}
+    <label for="">Adresa:</label>
+    {{form.address}}
+    <label for="">Kategoria:</label>
+    {{form.category}}
+    <label for="">Cena listka:</label>
+    {{form.ticket_price}}
+    <label for="">Video:</label>
+    {{form.event_video}}
+    <label for="">Popis podujatia:</label>
+    {{form.description}}
+    <input type="submit" value="Uložiť zmeny">
+
+    <h3>Datumy:</h3>
+    {% for form_date in  form_dates %}
+        <label for="">Od:</label>
+        {{form_date.date_from}}
+        <label for="">Do:</label>
+        {{form_date.date_to}}
+    {% endfor %}
+
+</form>
+<div style="clear:both;"></div>
+{% endblock %}

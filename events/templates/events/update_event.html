@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+<form action="{% url 'update_event' event.id %}" method="post">
+    {% csrf_token %}
+    <label>Meno eventu:</label>
+    {{form.event_name}}
+    <label>Miesto eventu:</label>
+    {{form.place}}
+    <label>Adresa eventu:</label>
+    {{form.address}}
+    <label>Kategoria:</label>
+    {{form.category}}
+    <label>Kpacita eventu:</label>
+    {{form.capacity}}
+    <label>Cena listka:</label>
+    {{form.ticket_price}}
+    <label>Video(linka):</label>
+    {{form.event_video}}
+    <label>Popis eventu:</label>
+    {{form.description}}
+
+    <input type="submit" value="Ulozit">
+</form>
+
+{% endblock %}

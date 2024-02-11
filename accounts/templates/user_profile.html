@@ -3,17 +3,19 @@
 {% block content %}
 <h1>{{request.user}}</h1>
 
+{% if request.user.organizer %}
 <h3>Moje eventy:</h3>
 <ul>
     {% for event in events %}
         <li><a href="{% url 'event_detail' event.id  %}">{{event}}</a></li>
     {% endfor %}
 </ul>
+{% endif %}
 
 <h3>Moje zakupene listky:</h3>
 <ul>
     {% for ticket in tickets %}
-        <li><a href="{% url 'event_detail' ticket.event_id  %}">{{ticket}}</a></li>
+        <li><a href="{% url 'event_detail' ticket.event_id.id  %}">{{ticket.event_id.event_name}} - {{ticket.ticket_count}}ks od:{{ticket.event_date.date_from}}</a></li>
     {% endfor %}
 </ul>
 
