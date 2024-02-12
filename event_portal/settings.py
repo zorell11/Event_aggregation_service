@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django_dump_load_utf8',
     'templatetags.filter',
     'django_extensions',
+    'rest_framework',
+    'api',
 
 ]
 

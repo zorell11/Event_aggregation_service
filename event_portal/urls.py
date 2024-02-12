@@ -21,11 +21,11 @@ from django.urls import path, include
 
 from django.contrib.auth.views import LoginView, LogoutView
 
-from accounts.views import UserSignUpView
-
-
+from api.views import *
 from events.views import *
 from accounts.views import *
+
+import rest_framework
 
 
 
@@ -54,8 +54,12 @@ urlpatterns = [
     path('event/category/<name>/', event_category, name='event_category'),
     path('event/update/<pk>/', update_event, name='update_event'),
     path('event/update/date/<int:pk>/', update_event_date, name='update_event_date'),
+    path('event/addcomment/', add_comment, name='add_comment'),
 
-
-    path('event/addcomment', add_comment, name='add_comment')
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/events/', Events.as_view()),
+    path('api/categories/', Categories.as_view()),
+    path('api/eventdates/', EventDates.as_view()),
+    path('api/organizers/', Organizers.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

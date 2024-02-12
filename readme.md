@@ -34,7 +34,7 @@ Součástí tohoto projektu je vytvoření webové stránky, která organizátor
 - [ ] Vytváření a úprava událostí organizátorem (uživatel se speciální rolí).
 - [x] Komentování událostí přihlášenými uživateli.
 - [x] Přihlašování na akce.
-- [ ] Vyhledávač událostí.
+- [x] Vyhledávač událostí.
 - [ ] API pro ostatní webové stránky / služby, kde budou akce prezentovány.
 ## Obecné pokyny
 Vývoj webové stránky za použití Django a Django REST Framework jako API.
@@ -66,7 +66,7 @@ stránka by měla mít název a v horní části by měla obsahovat tlačítko p
 - [x] událost musí být spojena s uživatelem, který ji přidal
 ## Seznam událostí
 - [x] na úvodní stránce v centrální části by měl být umístěn seznam všech aktuálních akcí
-- [ ] každý prvek seznamu by měl obsahovat:
+- [x] každý prvek seznamu by měl obsahovat:
   - [x] zvýrazněný titulek s názvem události,
   - [x] datum akce od/do,
   - [x] prvních 50 znaků popisu.
