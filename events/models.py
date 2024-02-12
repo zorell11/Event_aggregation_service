@@ -1,5 +1,3 @@
-from _ast import Pass
-
 from django.db import models
 from accounts.models import Organizer, CustomUser
 from django.core.validators import  MinValueValidator
@@ -9,7 +7,6 @@ from django.core.validators import  MinValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=32, blank=False, null=False)
-
 
     class Meta:
         verbose_name_plural = "Categories"
