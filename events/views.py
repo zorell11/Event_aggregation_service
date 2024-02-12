@@ -269,6 +269,7 @@ class AddEventCopyView(FormView):
         event = Event.objects.get(id=pk)
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
+        print(cleaned_data['date_from'])
         EventDate.objects.create(
             event_id = event,
             date_from = cleaned_data['date_from'],

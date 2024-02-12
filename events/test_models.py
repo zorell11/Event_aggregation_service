@@ -1,10 +1,10 @@
 from django.test import TestCase
 
 from .models import Event, Category, Organizer, EventDate, SigningUp
-from datetime import datetime
 import datetime
+from django.db import IntegrityError
 
-class ModelTest(TestCase):
+class EventsModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -45,7 +45,6 @@ class ModelTest(TestCase):
             date_to = datetime.datetime(2024, 2, 11, 22, 0, tzinfo=datetime.timezone.utc)
         )
 
-
     def test_event_name(self):
         event = Event.objects.get(id=1)
         self.assertEqual(event.event_name, 'Test event name')
@@ -58,10 +57,17 @@ class ModelTest(TestCase):
         event_date = EventDate.objects.get(id=1)
         self.assertEqual(event_date.get_time_from(), '11.2.2024 19:30')
 
+    def test_event_date_get_time_to(self):
+        event_date = EventDate.objects.get(id=1)
+        self.assertEqual(event_date.get_time_to(), '11.2.2024 22:00')
 
     def test_sold_tickets(self):
         event = Event.objects.get(event_name='Test event name')
         num_solf_tickets = SigningUp.objects.filter(event_id=event).count()
         self.assertEqual(num_solf_tickets, 0)
 
+
+    def test_category_unique(self):
+        with self.assertRaises(IntegrityError):
+            Category.objects.create(name='Zabava')
 

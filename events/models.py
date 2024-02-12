@@ -6,7 +6,7 @@ from django.core.validators import  MinValueValidator
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=32, blank=False, null=False)
+    name = models.CharField(max_length=32, unique=True, blank=False, null=False)
 
     class Meta:
         verbose_name_plural = "Categories"
