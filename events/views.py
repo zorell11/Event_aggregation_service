@@ -70,6 +70,18 @@ def event_category(request, name):
     content = {'events': events, 'category': category}
     return render(request, 'events/index.html', content)
 
+
+def event_category1(request, name):
+    category = Category.objects.get(name=name)
+    data = {}
+    event_dates = EventDate.objects.filter(date_to__gt=datetime.now()).order_by('date_from')
+    for date in event_dates:
+        if date.event_id.category == category:
+            data[date.event_id.id] = date
+    content = {'data': data}
+    return render(request, 'events/index.html', content)
+
+
 @login_required
 def add_comment(request):
     user = request.user

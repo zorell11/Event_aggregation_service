@@ -99,12 +99,13 @@
             <input type="checkbox" name="" id="" required>
             <span>Používateľ súhlasí s OBCHODNÝMI PODMIENKAMI predajnej siete TicketDB. (* povinné)</span>
         </p>
-
+    <div class="cart">
     <form action="{% url 'order_success' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="" value="">
         <input type="submit" name="" value="Zaplatiť {{full_price}} € Objednávka s povinnosťou platby">
     </form>
+    </div>
     <div style="clear:both;"></div>
 
 {% else %}

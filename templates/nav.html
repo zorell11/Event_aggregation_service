@@ -3,7 +3,7 @@
         {% csrf_token %}
         <label> Vyhladať: </label>
         <input type="text" name="search" class="search">
-        <input type="submit" value="Hladat" accesskey="s" />
+        <input type="submit" value="Hladať" accesskey="s" />
     </form>
     {% if request.user.is_authenticated %}
         <ul class="links">
@@ -13,9 +13,9 @@
                 <li><a href="/admin" target="_blank" id="admin">Admin</a></li>
             {% endif %}
     {% else %}
-            <li><a href="{% url 'login' %}" id="login">Login </a></li>
-            <li><a href="{% url 'user_signup' %}" id="signup-user">Registracia</a></li>
-            <li><a href="{% url 'organizer_signup' %}" id="signup-organizer">Chcete založit event? </a></li>
+            <li><a href="{% url 'login' %}" id="login">Prihlásenie </a></li>
+            <li><a href="{% url 'user_signup' %}" id="signup-user">Registrácia</a></li>
+            <li><a href="{% url 'organizer_signup' %}" id="signup-organizer">Chcete založiť event? </a></li>
         </ul>
     {% endif %}
 </div>
@@ -25,12 +25,14 @@
         <li><a href="{% url 'index' %}">Domov</a></li>
         <li><a href="{% url 'event_category' 'Divadlo' %}">Divadlo</a></li>
         <li><a href="{% url 'event_category' 'Festival' %}">Festival</a></li>
-        <li><a href="{% url 'event_category' 'Sport' %}">Sport</a></li>
-        <li><a href="{% url 'event_category' 'Zabava' %}">Zabava</a></li>
-        <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatne</a></li>
+        <li><a href="{% url 'event_category' 'Sport' %}">Šport</a></li>
+        <li><a href="{% url 'event_category' 'Zabava' %}">Zábava</a></li>
+        <li><a href="{% url 'event_category' 'Ostatne' %}">Ostatné</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'shopping_cart' %}">Nákupný košik</a></li>
+        {% endif %}
         {% if request.user.organizer or request.user.is_superuser %}
-        <li><a href="{% url 'event_create' %}">Pridat event</a></li>
-        <li><a href="{% url 'shopping_cart' %}">Nakupny kosik</a></li>
+            <li><a href="{% url 'event_create' %}">Pridať event</a></li>
         {% endif %}
     </ul>
 </div>

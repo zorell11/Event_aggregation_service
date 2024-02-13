@@ -270,6 +270,10 @@ navbar2 ul li a:hover {
   content: 'Select some files';
 }
 
+.cart input[type=submit] {
+    width: 450px;
+}
+
 
 /* comments */
 .comments {
