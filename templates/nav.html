@@ -9,6 +9,9 @@
         <ul class="links">
             <li>Prihlásený ako: <span id='username'><a href="{% url 'profile' %}">{{request.user}}</a></span></li>
             <li><a href="{% url 'logout' %}" id="logout">Logout</a></li>
+            {% if request.user.is_superuser %}
+                <li><a href="/admin" target="_blank" id="admin">Admin</a></li>
+            {% endif %}
     {% else %}
             <li><a href="{% url 'login' %}" id="login">Login </a></li>
             <li><a href="{% url 'user_signup' %}" id="signup-user">Registracia</a></li>

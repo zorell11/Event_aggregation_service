@@ -3,16 +3,14 @@ from concurrent.futures._base import LOGGER
 
 from django.shortcuts import render, redirect
 from django.views.generic import FormView, CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Event, Category, Comment, Organizer, EventDate, SigningUp
 
 from .forms import EventForm, AddEventCopyForm, EditEventForm, UpdateEventDate
-
-from django.urls import reverse
-
 
 from datetime import datetime, date, timezone, timedelta
 
@@ -45,8 +43,11 @@ def index(request):
 
 def event_detail(request, pk):
     check_not_paid_tickets()
-    event = Event.objects.get(id=pk)
-    event_dates = EventDate.objects.filter(event_id=pk, date_to__gte=datetime.now().date()).order_by('date_from')
+    try:
+        event = Event.objects.get(id=pk)
+        event_dates = EventDate.objects.filter(event_id=pk, date_to__gte=datetime.now().date()).order_by('date_from')
+    except:
+        return redirect('index')
     event_date_free_tickets = {}
     for event_date in event_dates:
         tickets_sold = SigningUp.objects.filter(event_id=pk, event_date=event_date.id).aggregate(Sum('ticket_count'))['ticket_count__sum']
@@ -81,8 +82,8 @@ def add_comment(request):
         if comment:
             Comment.objects.create(event_id=event_obj, user_id=user, comment=comment)
 
-    return redirect(f'/event/{event_id}')
-
+    #return redirect(f'/event/{event_id}')
+    return redirect('event_detail', pk=event_id)
 def search(request):
     searched_word = request.POST.get('search')
     if searched_word == None:
@@ -217,7 +218,7 @@ def shopping_cart(request):
 #### forms:
 
 
-class PersonCreateView(FormView):
+class PersonCreateView(LoginRequiredMixin, FormView):
     template_name = 'events/create_event.html'
     form_class = EventForm
     #success_url = reverse_lazy('event_detail', kwargs={'pk': self.pk})
@@ -259,7 +260,7 @@ class PersonCreateView(FormView):
     def get_success_url(self):
         return reverse('event_detail', kwargs={'pk': self.pk})
 
-class AddEventCopyView(FormView):
+class AddEventCopyView(LoginRequiredMixin, FormView):
     template_name = 'events/add_event_copy.html'
     form_class = AddEventCopyForm
     success_url = reverse_lazy('index')

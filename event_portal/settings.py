@@ -59,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'event_portal.middleware.AdminPagesMiddleware',
 ]
 
 ROOT_URLCONF = 'event_portal.urls'

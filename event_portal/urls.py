@@ -50,11 +50,11 @@ urlpatterns = [
     path('event/create/', PersonCreateView.as_view(), name='event_create'),
     path('event/order1/', add_num_ticket, name='add_num_ticket'),
     path('event/new_date/<pk>/', AddEventCopyView.as_view(), name='add_event_copy'),
-    path('event/<pk>/', event_detail, name='event_detail'),
     path('event/category/<name>/', event_category, name='event_category'),
     path('event/update/<pk>/', update_event, name='update_event'),
     path('event/update/date/<int:pk>/', update_event_date, name='update_event_date'),
     path('event/addcomment/', add_comment, name='add_comment'),
+    path('event/<pk>/', event_detail, name='event_detail'),
 
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/events/', Events.as_view()),
