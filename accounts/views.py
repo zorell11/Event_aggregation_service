@@ -13,12 +13,6 @@ from .models import Organizer
 
 # Create your views here.
 
-
-def user_profile(request):
-    pass
-
-
-
 class UserSignUpView(CreateView):
     form_class = UserSignUpForm
     success_url = reverse_lazy('index')
@@ -34,7 +28,7 @@ class OrganizerSignUpForm(CreateView):
 def user_profile(request):
     #user = Organizer.objects.get(id=request.user.id)
     events = Event.objects.filter(organizer_id=request.user)
-    tickets = SigningUp.objects.filter(user_id=request.user)
+    tickets = SigningUp.objects.filter(user_id=request.user, status='P')
 
     content ={'events': events, 'tickets':tickets}
     return render(request, 'user_profile.html', content)

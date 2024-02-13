@@ -5,12 +5,13 @@
 {% block content %}
 
 {% if orders %}
+    <div class="cart">
     <h2>Nákupný košík</h2>
     <ul>
     {% for order in orders %}
         <div>
             <h3>{{ order.event_id.event_name }}</h3>
-            <div><a href="{% url 'remove_all_tickets' order.id %}">Odobrať všetkz lístky</a></div>
+            <div><a href="{% url 'remove_all_tickets' order.id %}">Odobrať všetky lístky</a></div>
             <span>{{order.event_date.date_from}}</span>
              <span>{{order.event_id.place}}, {{order.event_id.address}}</span>
             <div>
@@ -39,12 +40,7 @@
 
             </table>
             <div>{{order.ticket_count}}ks/{% widthratio order.ticket_count 1 order.event_id.ticket_price  %} €</div>
-            <form action="{% url 'add_num_ticket' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="event_id" value="{{order.event_id.id}}">
-                <input type="hidden" name="event_date" value="{{order.event_date.id}}">
-                <input type="submit" value="Pridat listok">
-            </form>
+
             <div style="clear:both;"></div>
         </div>
     </ul>
@@ -107,6 +103,7 @@
     </form>
     </div>
     <div style="clear:both;"></div>
+    </div>
 
 {% else %}
     <h2>Váš nákupný košík je prázdný :(</h2>

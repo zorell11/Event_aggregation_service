@@ -274,6 +274,9 @@ navbar2 ul li a:hover {
     width: 450px;
 }
 
+.cart a:hover {
+    color: orange;
+}
 
 /* comments */
 .comments {
