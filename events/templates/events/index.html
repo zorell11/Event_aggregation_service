@@ -28,14 +28,16 @@
 
 <div class="box-container">
         {% for key,event_date in data.items %}
-        <a href="{% url 'event_detail' event_date.event_id.id %}">
+
             <div class="box">
-                <img src="{{ event_date.event_id.event_image.url }}" alt="">
-                <h3>{{ event_date.event_id.event_name }}</h3>
-                <p>{{ event_date.event_id.description |truncatechars:50 }}</p>
-                <p>{{event_date.get_time_from}} - {{event_date.get_time_to}}</p>
+                <a href="{% url 'event_detail' event_date.event_id.id %}">
+                    <img src="{{ event_date.event_id.event_image.url }}" alt="">
+                    <h3>{{ event_date.event_id.event_name }}</h3>
+                    <p>{{ event_date.event_id.description |truncatechars:50 }}</p>
+                    <p>{{event_date.get_time_from}} - {{event_date.get_time_to}}</p>
+                </a>
             </div>
-        </a>
+
         {% endfor %}
 
     </div>
