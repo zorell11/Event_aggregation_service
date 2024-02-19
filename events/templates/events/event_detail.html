@@ -22,7 +22,7 @@
     
 </div>
 <p>Miesto: {{ event.place }}</p>
-<p>Adreesa: {{ event.address }}</p>
+<p>Adresa: {{ event.address }}</p>
 <div class="update">
  {% if request.user.email == event.organizer_id.email or request.user.is_superuser %}
         <a href="{% url 'add_event_copy' event.id %}"><input type="submit" value="Pridat event s inym datumom"></a>
@@ -30,7 +30,7 @@
 </div>
 <div style="clear:both;"></div>
 
-<h2>Vstupekny</h2>
+<h2>Vstupenky</h2>
  {% for event_date in event_dates %}
     <p>
     <b>{{event_date.get_time_from}} - {{event_date.get_time_to}}</b>

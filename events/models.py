@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import Organizer, CustomUser
-from django.core.validators import  MinValueValidator
+from django.core.validators import MinValueValidator
 
 
 # Create your models here.
@@ -13,6 +13,7 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
 
 class Event(models.Model):
     organizer_id = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING, null=True, blank=False)
@@ -27,8 +28,8 @@ class Event(models.Model):
     ticket_price = models.FloatField(null=False, blank=False)
 
     def __str__(self):
-        #return f'{self.event_name} - {self.date_from}'
-        #return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
+        # return f'{self.event_name} - {self.date_from}'
+        # return f'{self.event_name} - {self.date_from.day}.{self.date_from.month}.{self.date_from.year}'
         return f'{self.event_name}'
 
 
@@ -38,13 +39,15 @@ class EventDate(models.Model):
     date_to = models.DateTimeField(blank=False, null=False)
 
     ordering = ['date_from']
+
     def __str__(self):
         return f'{self.event_id}'
 
     def get_time_from(self):
-            mins = '{:02}'.format(self.date_from.minute)
-            hours = '{:02}'.format(self.date_from.hour)
-            return f'{self.date_from.day}.{self.date_from.month}.{self.date_from.year} {hours}:{mins}'
+        mins = '{:02}'.format(self.date_from.minute)
+        hours = '{:02}'.format(self.date_from.hour)
+        return f'{self.date_from.day}.{self.date_from.month}.{self.date_from.year} {hours}:{mins}'
+
     def get_time_to(self):
         mins = '{:02}'.format(self.date_to.minute)
         hours = '{:02}'.format(self.date_to.hour)
@@ -54,7 +57,7 @@ class EventDate(models.Model):
 class Comment(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.DO_NOTHING, blank=False, null=False)
     user_id = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
-    #headline = models.CharField(max_length=64, null=False, blank=False)
+    # headline = models.CharField(max_length=64, null=False, blank=False)
     comment = models.TextField(null=False, blank=False, max_length=500)
     # is_reply = models.BooleanField()
     # comment_id = models.IntegerField()
@@ -62,6 +65,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.event_id} - {self.user_id}: {self.comment[:20]}'
+
 
 class SigningUp(models.Model):
     PAYMENT_STATUS = [
@@ -74,7 +78,6 @@ class SigningUp(models.Model):
     signing_up_date = models.DateTimeField(auto_now_add=True)
     ticket_count = models.IntegerField(blank=False, null=False, validators=[MinValueValidator(1)])
     status = models.CharField(max_length=1, choices=PAYMENT_STATUS, null=True)
-
 
     def __str__(self):
         return f'{self.user_id}: {self.event_id} - {self.ticket_count}'

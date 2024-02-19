@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 
 class CustomUser(AbstractUser):
@@ -20,6 +21,7 @@ class CustomUser(AbstractUser):
 
     def get_billing_information(self):
         return f'{self.first_name} {self.last_name}\n{self.address}\n{self.phone}'
+
 
 class Organizer(CustomUser):
     organzier = models.BooleanField(default=True)
