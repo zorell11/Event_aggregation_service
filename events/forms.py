@@ -39,7 +39,7 @@ class EventForm(forms.Form):
     event_image = forms.ImageField(required=False, label='Obrázok')
     event_video = forms.CharField(max_length=128, required=False, label='Video(nepovinné)')
     description = forms.CharField(min_length=20, required=True, widget=forms.Textarea,
-                                  label=mark_safe('Popis podujatia(Formatovanie textu pomocou <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"target="_blank">Markup</a> znackovacieho jazyka.)'))
+                                  label=mark_safe('Popis podujatia(Formatovanie textu pomocou <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"target="_blank">Markdown</a> znackovacieho jazyka.)'))
                                   #label='Popis podujatia<a>wiki</a>')
 
 
