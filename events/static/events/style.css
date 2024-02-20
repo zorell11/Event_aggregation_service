@@ -287,6 +287,10 @@ navbar2 ul li a:hover {
     background: #c38a62;
 }
 
+#id_description {
+    height: 90vh;
+    width: 80%;
+}
 
 footer {
     text-align: center;

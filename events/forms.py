@@ -1,9 +1,8 @@
 from django import forms
-
 from .models import Event, Category, EventDate
-
 from datetime import date
 
+from django.utils.safestring import mark_safe
 
 def event_date_checks(clean_data, date_from):
     if clean_data.get('date_from') >= clean_data.get('date_to'):
@@ -39,7 +38,9 @@ class EventForm(forms.Form):
     ticket_price = forms.FloatField(min_value=1, required=True, label='Cena lístka')
     event_image = forms.ImageField(required=False, label='Obrázok')
     event_video = forms.CharField(max_length=128, required=False, label='Video(nepovinné)')
-    description = forms.CharField(min_length=20, required=True, widget=forms.Textarea, label='Popis podujatia')
+    description = forms.CharField(min_length=20, required=True, widget=forms.Textarea,
+                                  label=mark_safe('Popis podujatia(Formatovanie textu pomocou <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax"target="_blank">Markup</a> znackovacieho jazyka.)'))
+                                  #label='Popis podujatia<a>wiki</a>')
 
 
     def clean(self):

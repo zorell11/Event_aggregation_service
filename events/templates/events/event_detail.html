@@ -63,7 +63,7 @@
 
 <br>
 <h2>POPIS PODUJATIA</h2>
-<p>{{ event.description }} </p>
+<p>{{ event_description | safe }} </p>
 <h2>Komentare</h2>
 
     {% for comment in comments %}

@@ -14,6 +14,9 @@ from .forms import EventForm, AddEventCopyForm, EditEventForm, UpdateEventDate
 
 from datetime import datetime, date, timezone, timedelta
 
+from markdown2 import Markdown
+markdowner = Markdown()
+
 # Create your views here.
 
 
@@ -46,6 +49,7 @@ def event_detail(request, pk):
     try:
         event = Event.objects.get(id=pk)
         event_dates = EventDate.objects.filter(event_id=pk, date_to__gte=datetime.now().date()).order_by('date_from')
+        event_description = markdowner.convert(event.description)
     except:
         return redirect('index')
     event_date_free_tickets = {}
@@ -54,7 +58,7 @@ def event_detail(request, pk):
         tickets_sold = 0 if tickets_sold == None else tickets_sold
         event_date_free_tickets[event_date.id] = event.capacity-tickets_sold
     comments = Comment.objects.filter(event_id=pk).order_by('-comment_date')
-    content = {'event': event, 'event_dates': event_dates, 'comments': comments, 'event_date_free_tickets': event_date_free_tickets}
+    content = {'event': event, 'event_dates': event_dates, 'comments': comments, 'event_date_free_tickets': event_date_free_tickets, 'event_description': event_description}
     return render(request, 'events/event_detail.html', content)
 
 
@@ -243,12 +247,16 @@ class PersonCreateView(LoginRequiredMixin, FormView):
         result = super().form_valid(form)
         cleaned_data = form.cleaned_data
 
+        # description = cleaned_data['description']
+        # description = markdowner.convert(description)
+
         new_event = Event.objects.create(
             organizer_id = user,
             event_name = cleaned_data['event_name'],
             place = cleaned_data['place'],
             address = cleaned_data['address'],
             description = cleaned_data['description'],
+            #description = description,
             capacity = cleaned_data['capacity'],
             event_image = cleaned_data['event_image'],
             event_video = cleaned_data['event_video'],
@@ -336,6 +344,7 @@ def update_event(request, pk):
             event.ticket_price = cleaned_data['ticket_price']
             event.event_video = cleaned_data['event_video']
             event.event_video = cleaned_data['event_video']
+            event.description = cleaned_data['description']
 
             event.save()
             return redirect('event_detail', pk=pk)
